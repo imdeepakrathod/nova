@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color: #ffffff;
+  background: #020308;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(circle at top center, rgba(181, 74, 50, 0.11), transparent 34rem),
+    #020308;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  color: #ffffff;
+  background: rgba(255, 77, 0, 0.72);
+}
+
+@layer components {
+  .nova-container {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10;
+  }
+
+  .glass-panel {
+    @apply border border-nova-line bg-nova-panel backdrop-blur-xl;
+  }
+
+  .section-shell {
+    @apply nova-container py-24 sm:py-28 lg:py-32;
+  }
+}
