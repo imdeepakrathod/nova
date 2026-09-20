@@ -1,14 +1,73 @@
-import { FiActivity, FiDatabase } from 'react-icons/fi';
+import { useFrame, useThree } from '@react-three/fiber';
+import { useRef } from 'react';
+import Earth from '../3d/Earth.jsx';
+import Mars3D from '../3d/Mars.jsx';
+import Spacecraft from '../3d/Spacecraft.jsx';
+import SpaceParticles from '../3d/SpaceParticles.jsx';
+import SpaceScene from '../3d/SpaceScene.jsx';
+import StarField from '../3d/StarField.jsx';
 import Button from '../ui/Button.jsx';
+
+function HeroSpaceEnvironment() {
+  const rigRef = useRef(null);
+  const { size } = useThree();
+  const isMobile = size.width < 640;
+  const isTablet = size.width >= 640 && size.width < 1024;
+
+  useFrame(({ pointer }, delta) => {
+    if (!rigRef.current) return;
+
+    const targetY = pointer.x * (isMobile ? 0.035 : 0.075);
+    const targetX = -pointer.y * (isMobile ? 0.018 : 0.035);
+
+    rigRef.current.rotation.y += (targetY - rigRef.current.rotation.y) * delta;
+    rigRef.current.rotation.x += (targetX - rigRef.current.rotation.x) * delta;
+  });
+
+  return (
+    <>
+      <fog attach="fog" args={['#020308', isMobile ? 8 : 10, 34]} />
+      <StarField count={isMobile ? 1200 : isTablet ? 2600 : 4600} mobile={isMobile} />
+      <SpaceParticles
+        count={isMobile ? 80 : isTablet ? 150 : 240}
+        opacity={isMobile ? 0.16 : 0.22}
+        spread={isMobile ? 6.5 : 9}
+      />
+
+      <group ref={rigRef}>
+        <Earth
+          position={isMobile ? [1.95, -1.8, -3.6] : [-3.4, -1.35, -4.4]}
+          scale={isMobile ? 1.25 : isTablet ? 1.45 : 1.78}
+        />
+        <Mars3D
+          position={isMobile ? [2.65, 1.35, -7.5] : [4.15, 1.4, -7]}
+          scale={isMobile ? 0.32 : 0.5}
+        />
+        <Spacecraft
+          position={isMobile ? [0.98, -0.12, -0.15] : isTablet ? [1.45, -0.06, 0] : [2.08, -0.05, 0.12]}
+          rotation={isMobile ? [0.16, -0.48, 0.12] : [0.18, -0.58, 0.08]}
+          scale={isMobile ? 0.62 : isTablet ? 0.82 : 1.12}
+        />
+      </group>
+    </>
+  );
+}
 
 function Hero() {
   return (
     <section
       id="top"
-      className="relative min-h-screen overflow-hidden bg-nova-radial pt-28"
+      className="relative min-h-screen overflow-hidden bg-nova-black pt-28"
     >
+      <div className="absolute inset-0">
+        <SpaceScene>
+          <HeroSpaceEnvironment />
+        </SpaceScene>
+      </div>
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(2,3,8,0.98)_0%,rgba(2,3,8,0.84)_38%,rgba(2,3,8,0.34)_72%,rgba(2,3,8,0.1)_100%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(2,3,8,0.16)_0%,rgba(2,3,8,0)_42%,rgba(2,3,8,0.92)_100%)]" />
       <div className="absolute inset-x-0 bottom-0 h-px bg-white/10" />
-      <div className="nova-container grid min-h-[calc(100vh-7rem)] items-center gap-16 py-16 lg:grid-cols-[1fr_0.92fr]">
+      <div className="nova-container relative z-10 flex min-h-[calc(100vh-7rem)] items-center py-16">
         <div className="max-w-4xl">
           <p className="mb-6 text-xs font-semibold uppercase tracking-[0.34em] text-nova-accent">
             NOVA-01 / MARS MISSION
@@ -46,38 +105,6 @@ function Hero() {
                 </p>
               </div>
             ))}
-          </div>
-        </div>
-
-        <div
-          className="glass-panel relative min-h-[26rem] overflow-hidden p-6 sm:min-h-[34rem]"
-          aria-label="Reserved 3D spacecraft viewport for Phase 2"
-        >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_42%,rgba(255,77,0,0.16),transparent_34%)]" />
-          <div className="relative flex h-full min-h-[26rem] flex-col justify-between sm:min-h-[34rem]">
-            <div className="flex items-center justify-between text-xs uppercase tracking-[0.22em] text-nova-muted">
-              <span className="inline-flex items-center gap-2">
-                <FiActivity aria-hidden="true" className="text-nova-accent" />
-                Phase 2 Bay
-              </span>
-              <span>3D View</span>
-            </div>
-
-            <div className="mx-auto flex aspect-square w-64 max-w-full items-center justify-center rounded-full border border-white/10 bg-white/[0.02] sm:w-80">
-              <div className="flex aspect-square w-40 items-center justify-center rounded-full border border-dashed border-nova-accent/45 text-center text-xs font-semibold uppercase tracking-[0.28em] text-nova-muted sm:w-52">
-                Spacecraft
-                <br />
-                Insert
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between border-t border-white/10 pt-5 text-xs uppercase tracking-[0.22em] text-nova-muted">
-              <span className="inline-flex items-center gap-2">
-                <FiDatabase aria-hidden="true" className="text-nova-accent" />
-                Awaiting model
-              </span>
-              <span>NOVA-01</span>
-            </div>
           </div>
         </div>
       </div>
