@@ -12,11 +12,13 @@ function Spacecraft() {
   return (
     <section id="spacecraft" className="border-y border-white/10 bg-white/[0.018]">
       <div className="section-shell grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
-        <SectionHeading
-          eyebrow="Spacecraft"
-          title="A vessel interface waiting for depth."
-          description="This non-3D placeholder defines the spacecraft content system before the Three.js experience arrives in Phase 2."
-        />
+        <div className="deep-space-ui translate-y-4 opacity-60">
+          <SectionHeading
+            eyebrow="Spacecraft"
+            title="A vessel interface waiting for depth."
+            description="This non-3D placeholder defines the spacecraft content system before the Three.js experience arrives in Phase 2."
+          />
+        </div>
 
         <div className="glass-panel p-5 sm:p-8">
           <div className="grid gap-px overflow-hidden border border-white/10 bg-white/10 sm:grid-cols-2">

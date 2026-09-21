@@ -2,7 +2,7 @@ import { Stars } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import { memo, useMemo, useRef } from 'react';
 
-function StarField({ count = 4200, mobile = false }) {
+function StarField({ count = 4200, mobile = false, intensityRef }) {
   const groupRef = useRef(null);
   const layers = useMemo(
     () => [
@@ -31,6 +31,16 @@ function StarField({ count = 4200, mobile = false }) {
 
     groupRef.current.rotation.y += delta * 0.005;
     groupRef.current.rotation.x += delta * 0.0015;
+
+    if (intensityRef?.current) {
+      groupRef.current.traverse((child) => {
+        if (child.material?.transparent) {
+          child.material.userData.baseOpacity ??= child.material.opacity;
+          child.material.opacity =
+            child.material.userData.baseOpacity * intensityRef.current.value;
+        }
+      });
+    }
   });
 
   return (

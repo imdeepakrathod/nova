@@ -30,6 +30,7 @@ function Planet({
   rotationSpeed = 0.05,
   roughness = 0.78,
   metalness = 0,
+  atmosphereControlRef,
 }) {
   const planetRef = useRef(null);
   const atmosphereRef = useRef(null);
@@ -42,8 +43,12 @@ function Planet({
 
     if (atmosphereRef.current) {
       atmosphereRef.current.rotation.y -= delta * rotationSpeed * 0.35;
+      const baseOpacity = atmosphereControlRef?.current?.opacity ?? atmosphereOpacity;
       atmosphereRef.current.material.opacity =
-        atmosphereOpacity + Math.sin(state.clock.elapsedTime * 0.7) * 0.025;
+        baseOpacity + Math.sin(state.clock.elapsedTime * 0.7) * 0.025;
+      if (atmosphereControlRef?.current) {
+        atmosphereControlRef.current.material = atmosphereRef.current.material;
+      }
     }
   });
 

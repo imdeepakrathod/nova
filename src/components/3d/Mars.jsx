@@ -6,6 +6,7 @@ function Mars({
   position = [3.8, 1.25, -6.5],
   scale = 0.48,
   rotation = [0.05, 0, 0.12],
+  atmosphereControlRef,
 }) {
   return (
     <Planet
@@ -20,6 +21,7 @@ function Mars({
       roughness={0.88}
       scale={scale}
       texturePath={texturePath}
+      atmosphereControlRef={atmosphereControlRef}
     />
   );
 }

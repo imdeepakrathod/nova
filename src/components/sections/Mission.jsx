@@ -39,6 +39,19 @@ function Mission() {
           </article>
         ))}
       </div>
+
+      <div className="mt-16 grid grid-cols-3 gap-px border border-white/10 bg-white/10">
+        {[
+          ['225M', 'KM'],
+          ['07', 'MONTHS'],
+          ['01', 'MISSION'],
+        ].map(([value, label]) => (
+          <div key={label} className="mission-reveal bg-nova-black/80 p-5 sm:p-8">
+            <p className="mission-value font-display text-2xl font-semibold text-nova-white sm:text-4xl">{value}</p>
+            <p className="mt-2 text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-nova-muted sm:text-xs">{label}</p>
+          </div>
+        ))}
+      </div>
     </section>
   );
 }
