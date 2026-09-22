@@ -15,6 +15,7 @@ import { createHeroAnimation } from './animations/heroAnimation.js';
 import { createMissionAnimation } from './animations/missionAnimation.js';
 import { createMarsAnimation } from './animations/marsAnimation.js';
 import { createSpacecraftAnimation } from './animations/spacecraftAnimation.js';
+import { createTimelineAnimation } from './animations/timelineAnimation.js';
 import useSmoothScroll from './hooks/useSmoothScroll.js';
 import useScrollProgress from './hooks/useScrollProgress.js';
 
@@ -25,12 +26,14 @@ function SceneAnimationController({ sceneRefs }) {
     const scene = sceneRefs.current;
     if (!scene.camera || !scene.spacecraft || !scene.earth || !scene.mars) return undefined;
 
-    const options = { scene, isMobile: size.width < 640 };
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const options = { scene, isMobile: size.width < 640, reducedMotion };
     const cleanups = [
       createHeroAnimation(options),
       createMissionAnimation(options),
       createSpacecraftAnimation(options),
       createMarsAnimation(options),
+      createTimelineAnimation(options),
     ];
 
     return () => cleanups.forEach((cleanup) => cleanup());

@@ -1,7 +1,8 @@
 import { configureGsap, gsap, ScrollTrigger } from './gsapConfig.js';
 
-export function createSpacecraftAnimation({ scene, isMobile }) {
+export function createSpacecraftAnimation({ scene, isMobile, reducedMotion = false }) {
   configureGsap();
+  if (reducedMotion) return () => {};
 
   const context = gsap.context(() => {
     const timeline = gsap.timeline({

@@ -1,7 +1,8 @@
 import { configureGsap, gsap, ScrollTrigger } from './gsapConfig.js';
 
-export function createHeroAnimation({ scene, isMobile }) {
+export function createHeroAnimation({ scene, isMobile, reducedMotion = false }) {
   configureGsap();
+  if (reducedMotion) return () => {};
 
   const distance = isMobile ? 0.7 : 1.25;
   const cameraDepth = isMobile ? 0.8 : 1.35;

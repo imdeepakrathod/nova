@@ -6,6 +6,8 @@ export default function useSmoothScroll() {
   useEffect(() => {
     configureGsap();
 
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+
     const lenis = new Lenis({
       autoRaf: false,
       duration: 1.15,

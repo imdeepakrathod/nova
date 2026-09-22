@@ -1,12 +1,22 @@
-import { FiBox, FiCrosshair, FiZap } from 'react-icons/fi';
+import { FiBox, FiCrosshair, FiMaximize, FiZap } from 'react-icons/fi';
 import SectionHeading from '../ui/SectionHeading.jsx';
 
 const specs = [
-  { label: 'Vehicle', value: 'NOVA-01' },
-  { label: 'Mode', value: 'Crewed Transit' },
-  { label: 'Status', value: 'Concept Phase' },
-  { label: 'Payload', value: 'Mars Lander' },
+  { label: 'Payload', value: 'Mars lander + science bay' },
+  { label: 'Propulsion', value: 'Solar electric / chemical' },
+  { label: 'Length', value: '38.6 m' },
+  { label: 'Mass', value: '128,400 kg' },
+  { label: 'Capability', value: 'Crewed Mars transfer' },
 ];
+
+function SpecificationCard({ label, value }) {
+  return (
+    <div className="border border-white/10 bg-nova-black/75 p-5 transition-colors hover:border-white/25">
+      <dt className="text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-nova-muted">{label}</dt>
+      <dd className="mt-3 text-sm font-semibold leading-6 text-nova-white">{value}</dd>
+    </div>
+  );
+}
 
 function Spacecraft() {
   return (
@@ -16,25 +26,27 @@ function Spacecraft() {
           <SectionHeading
             eyebrow="Spacecraft"
             title="A vessel interface waiting for depth."
-            description="This non-3D placeholder defines the spacecraft content system before the Three.js experience arrives in Phase 2."
+            description="NOVA-01 combines a reusable crew module, high-efficiency solar electric propulsion, and a shielded payload bay built for the long route to Mars."
           />
         </div>
 
-        <div className="glass-panel p-5 sm:p-8">
-          <div className="grid gap-px overflow-hidden border border-white/10 bg-white/10 sm:grid-cols-2">
-            {specs.map((spec) => (
-              <div key={spec.label} className="bg-nova-black/85 p-6">
-                <p className="text-[0.65rem] font-semibold uppercase tracking-[0.24em] text-nova-muted">
-                  {spec.label}
-                </p>
-                <p className="mt-3 text-xl font-semibold text-nova-white">
-                  {spec.value}
-                </p>
+        <div className="space-y-8">
+          <div className="relative flex min-h-[20rem] items-end overflow-hidden border border-white/10 bg-[radial-gradient(circle_at_60%_45%,rgba(255,77,0,0.18),transparent_24%),rgba(255,255,255,0.025)] p-5 sm:min-h-[25rem] sm:p-8">
+            <div className="absolute inset-0 bg-[linear-gradient(115deg,transparent_40%,rgba(255,255,255,0.06)_40.2%,transparent_40.5%)]" />
+            <div className="relative flex w-full items-end justify-between border-t border-white/15 pt-4">
+              <div>
+                <p className="text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-nova-accent">Live scene</p>
+                <p className="mt-2 text-sm text-nova-muted">NOVA-01 orbital configuration</p>
               </div>
-            ))}
+              <FiMaximize aria-hidden="true" className="text-xl text-nova-muted" />
+            </div>
           </div>
 
-          <div className="mt-8 grid gap-4 sm:grid-cols-3">
+          <dl className="grid gap-3 sm:grid-cols-2">
+            {specs.map((spec) => <SpecificationCard key={spec.label} {...spec} />)}
+          </dl>
+
+          <div className="grid gap-4 sm:grid-cols-3">
             {[
               [FiBox, 'Modular Hull'],
               [FiZap, 'Solar Electric'],

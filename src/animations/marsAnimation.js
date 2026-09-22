@@ -1,7 +1,8 @@
 import { configureGsap, gsap, ScrollTrigger } from './gsapConfig.js';
 
-export function createMarsAnimation({ scene, isMobile }) {
+export function createMarsAnimation({ scene, isMobile, reducedMotion = false }) {
   configureGsap();
+  if (reducedMotion) return () => {};
 
   const context = gsap.context(() => {
     const timeline = gsap.timeline({

@@ -1,7 +1,8 @@
 import { configureGsap, gsap, ScrollTrigger } from './gsapConfig.js';
 
-export function createMissionAnimation({ scene, isMobile }) {
+export function createMissionAnimation({ scene, isMobile, reducedMotion = false }) {
   configureGsap();
+  if (reducedMotion) return () => {};
 
   const context = gsap.context(() => {
     const values = gsap.utils.toArray('.mission-value');
