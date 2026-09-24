@@ -1,5 +1,6 @@
 import { FiBox, FiCrosshair, FiMaximize, FiZap } from 'react-icons/fi';
 import SectionHeading from '../ui/SectionHeading.jsx';
+import useTilt from '../../hooks/useTilt.js';
 
 const specs = [
   { label: 'Payload', value: 'Mars lander + science bay' },
@@ -10,8 +11,10 @@ const specs = [
 ];
 
 function SpecificationCard({ label, value }) {
+  const ref = useTilt({ strength: 5 });
+
   return (
-    <div className="border border-white/10 bg-nova-black/75 p-5 transition-colors hover:border-white/25">
+    <div ref={ref} data-cursor className="tilt-card border border-white/10 bg-nova-black/75 p-5 transition-colors hover:border-white/25">
       <dt className="text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-nova-muted">{label}</dt>
       <dd className="mt-3 text-sm font-semibold leading-6 text-nova-white">{value}</dd>
     </div>

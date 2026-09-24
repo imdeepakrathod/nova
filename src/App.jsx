@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useThree } from '@react-three/fiber';
 import Navbar from './components/layout/Navbar.jsx';
 import Footer from './components/layout/Footer.jsx';
@@ -18,6 +18,9 @@ import { createSpacecraftAnimation } from './animations/spacecraftAnimation.js';
 import { createTimelineAnimation } from './animations/timelineAnimation.js';
 import useSmoothScroll from './hooks/useSmoothScroll.js';
 import useScrollProgress from './hooks/useScrollProgress.js';
+import { createPagePolish } from './animations/pagePolish.js';
+import CustomCursor from './components/ui/CustomCursor.jsx';
+import LoadingScreen from './components/ui/LoadingScreen.jsx';
 
 function SceneAnimationController({ sceneRefs }) {
   const { size } = useThree();
@@ -43,12 +46,21 @@ function SceneAnimationController({ sceneRefs }) {
 }
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
   useSmoothScroll();
   useScrollProgress();
   const sceneRefs = useRef({});
+  const completeLoading = useCallback(() => setIsLoading(false), []);
+
+  useEffect(() => {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    return createPagePolish({ reducedMotion });
+  }, []);
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-nova-black text-nova-white">
+      {isLoading && <LoadingScreen onComplete={completeLoading} />}
+      <CustomCursor />
       <div className="pointer-events-none fixed inset-0 z-0 opacity-90">
         <SpaceScene>
           <SceneEnvironment sceneRefs={sceneRefs} />

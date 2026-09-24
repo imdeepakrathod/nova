@@ -32,6 +32,10 @@ body {
     #020308;
 }
 
+body:has(.loading-screen) {
+  overflow: hidden;
+}
+
 button,
 a {
   -webkit-tap-highlight-color: transparent;
@@ -51,6 +55,205 @@ button:focus-visible {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+main > section {
+  isolation: isolate;
+}
+
+main > section::after {
+  position: absolute;
+  inset-inline: 2rem;
+  bottom: 0;
+  height: 1px;
+  content: '';
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+  pointer-events: none;
+}
+
+.tilt-card,
+.cta-card {
+  transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translateY(var(--tilt-lift, 0px));
+  transform-style: preserve-3d;
+  transition: transform 300ms ease, border-color 300ms ease, background-color 300ms ease;
+}
+
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  position: absolute;
+  right: 0;
+  bottom: -0.65rem;
+  left: 0;
+  height: 1px;
+  content: '';
+  background: #ff4d00;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 300ms ease;
+}
+
+.nav-link:hover::after,
+.nav-link--active::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 200ms ease, width 220ms ease, height 220ms ease, border-color 220ms ease, background-color 220ms ease;
+  will-change: transform;
+}
+
+.cursor-dot {
+  width: 5px;
+  height: 5px;
+  margin: -2.5px 0 0 -2.5px;
+  border-radius: 999px;
+  background: #ff4d00;
+}
+
+.cursor-ring {
+  width: 28px;
+  height: 28px;
+  margin: -14px 0 0 -14px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 999px;
+}
+
+body:has(.cursor-ring) .cursor-dot,
+body:has(.cursor-ring) .cursor-ring {
+  opacity: 1;
+}
+
+.cursor-ring--active {
+  width: 44px;
+  height: 44px;
+  margin: -22px 0 0 -22px;
+  border-color: #ff4d00;
+  background: rgba(255, 77, 0, 0.1);
+}
+
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #020308;
+  transition: opacity 450ms ease, visibility 450ms ease;
+}
+
+.loading-screen--leaving {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loading-screen__grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.25;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 4rem 4rem;
+  mask-image: radial-gradient(circle, black, transparent 70%);
+}
+
+.loading-screen__content {
+  position: relative;
+  width: min(22rem, calc(100% - 3rem));
+  text-align: center;
+}
+
+.loading-screen__eyebrow {
+  color: #ff4d00;
+  font-family: Satoshi, Inter, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+}
+
+.loading-screen__mark {
+  position: relative;
+  width: 4.5rem;
+  height: 4.5rem;
+  margin: 2rem auto;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+}
+
+.loading-screen__mark::before,
+.loading-screen__mark::after {
+  position: absolute;
+  inset: 0.65rem;
+  border: 1px solid transparent;
+  border-top-color: #ff4d00;
+  border-radius: inherit;
+  content: '';
+  animation: loading-spin 1.2s linear infinite;
+}
+
+.loading-screen__mark::after {
+  inset: 1.3rem;
+  border-top-color: #fff;
+  animation-direction: reverse;
+  animation-duration: 0.8s;
+}
+
+.loading-screen__mark span {
+  position: absolute;
+  inset: 2rem;
+  border-radius: 999px;
+  background: #ff4d00;
+  box-shadow: 0 0 2rem rgba(255, 77, 0, 0.65);
+}
+
+.loading-screen__label {
+  color: #9ca3af;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+.loading-screen__progress {
+  height: 1px;
+  margin-top: 1.5rem;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.loading-screen__progress span {
+  display: block;
+  width: 45%;
+  height: 100%;
+  background: #ff4d00;
+  animation: loading-progress 1s ease-in-out forwards;
+}
+
+@keyframes loading-spin { to { transform: rotate(360deg); } }
+@keyframes loading-progress { to { width: 100%; } }
+
+@media (hover: none), (pointer: coarse) {
+  .cursor-dot,
+  .cursor-ring {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .cursor-dot,
+  .cursor-ring {
+    display: none;
   }
 }
 

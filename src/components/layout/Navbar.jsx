@@ -1,16 +1,20 @@
 import { useState } from 'react';
 import { FiMenu, FiX } from 'react-icons/fi';
 import Button from '../ui/Button.jsx';
+import useActiveSection from '../../hooks/useActiveSection.js';
 
 const navItems = [
   { label: 'Mission', href: '#mission' },
   { label: 'Spacecraft', href: '#spacecraft' },
   { label: 'Journey', href: '#journey' },
+  { label: 'Mars', href: '#mars' },
   { label: 'Crew', href: '#crew' },
 ];
+const sectionIds = navItems.map((item) => item.href.slice(1));
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const activeSection = useActiveSection(sectionIds);
 
   const closeMenu = () => setIsOpen(false);
 
@@ -33,7 +37,7 @@ function Navbar() {
           {navItems.map((item) => (
             <a
               key={item.href}
-              className="text-xs font-semibold uppercase tracking-[0.2em] text-nova-muted transition hover:text-nova-white"
+              className={`nav-link text-xs font-semibold uppercase tracking-[0.2em] transition hover:text-nova-white ${activeSection === item.href.slice(1) ? 'nav-link--active text-nova-white' : 'text-nova-muted'}`}
               href={item.href}
             >
               {item.label}
@@ -64,7 +68,7 @@ function Navbar() {
             {navItems.map((item) => (
               <a
                 key={item.href}
-                className="py-4 text-sm font-semibold uppercase tracking-[0.2em] text-nova-muted transition hover:text-nova-white"
+                className={`nav-link py-4 text-sm font-semibold uppercase tracking-[0.2em] transition hover:text-nova-white ${activeSection === item.href.slice(1) ? 'nav-link--active text-nova-white' : 'text-nova-muted'}`}
                 href={item.href}
                 onClick={closeMenu}
               >
