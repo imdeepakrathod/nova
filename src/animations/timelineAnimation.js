@@ -1,4 +1,4 @@
-import { configureGsap, gsap, ScrollTrigger } from './gsapConfig.js';
+import { configureGsap, gsap } from './gsapConfig.js';
 
 export function createTimelineAnimation({ reducedMotion = false } = {}) {
   configureGsap();
@@ -26,8 +26,5 @@ export function createTimelineAnimation({ reducedMotion = false } = {}) {
 
   return () => {
     context.revert();
-    ScrollTrigger.getAll().forEach((trigger) => {
-      if (trigger.vars.trigger === '#journey') trigger.kill();
-    });
   };
 }

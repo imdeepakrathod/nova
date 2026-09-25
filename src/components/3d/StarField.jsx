@@ -4,6 +4,7 @@ import { memo, useMemo, useRef } from 'react';
 
 function StarField({ count = 4200, mobile = false, intensityRef }) {
   const groupRef = useRef(null);
+  const lastIntensityRef = useRef(null);
   const layers = useMemo(
     () => [
       {
@@ -32,12 +33,14 @@ function StarField({ count = 4200, mobile = false, intensityRef }) {
     groupRef.current.rotation.y += delta * 0.005;
     groupRef.current.rotation.x += delta * 0.0015;
 
-    if (intensityRef?.current) {
+    const intensity = intensityRef?.current?.value;
+    if (intensity !== undefined && intensity !== lastIntensityRef.current) {
+      lastIntensityRef.current = intensity;
       groupRef.current.traverse((child) => {
         if (child.material?.transparent) {
           child.material.userData.baseOpacity ??= child.material.opacity;
           child.material.opacity =
-            child.material.userData.baseOpacity * intensityRef.current.value;
+            child.material.userData.baseOpacity * intensity;
         }
       });
     }

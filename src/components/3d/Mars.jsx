@@ -7,6 +7,7 @@ function Mars({
   scale = 0.48,
   rotation = [0.05, 0, 0.12],
   atmosphereControlRef,
+  segments = 48,
 }) {
   return (
     <Planet
@@ -20,6 +21,7 @@ function Mars({
       rotationSpeed={0.028}
       roughness={0.88}
       scale={scale}
+      segments={segments}
       texturePath={texturePath}
       atmosphereControlRef={atmosphereControlRef}
     />

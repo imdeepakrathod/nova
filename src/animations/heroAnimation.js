@@ -1,4 +1,4 @@
-import { configureGsap, gsap, ScrollTrigger } from './gsapConfig.js';
+import { configureGsap, gsap } from './gsapConfig.js';
 
 export function createHeroAnimation({ scene, isMobile, reducedMotion = false }) {
   configureGsap();
@@ -28,8 +28,5 @@ export function createHeroAnimation({ scene, isMobile, reducedMotion = false }) 
 
   return () => {
     context.revert();
-    ScrollTrigger.getAll().forEach((trigger) => {
-      if (trigger.vars.trigger === '#top') trigger.kill();
-    });
   };
 }

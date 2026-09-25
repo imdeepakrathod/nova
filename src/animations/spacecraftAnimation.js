@@ -1,4 +1,4 @@
-import { configureGsap, gsap, ScrollTrigger } from './gsapConfig.js';
+import { configureGsap, gsap } from './gsapConfig.js';
 
 export function createSpacecraftAnimation({ scene, isMobile, reducedMotion = false }) {
   configureGsap();
@@ -25,8 +25,5 @@ export function createSpacecraftAnimation({ scene, isMobile, reducedMotion = fal
 
   return () => {
     context.revert();
-    ScrollTrigger.getAll().forEach((trigger) => {
-      if (trigger.vars.trigger === '#spacecraft') trigger.kill();
-    });
   };
 }

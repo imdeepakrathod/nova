@@ -54,13 +54,14 @@ function SceneEnvironment({ sceneRefs }) {
 
       <group ref={rigRef}>
         <group ref={earthRef} position={isMobile ? [1.95, -1.8, -3.6] : [-3.4, -1.35, -4.4]}>
-          <Earth position={[0, 0, 0]} scale={isMobile ? 1.25 : isTablet ? 1.45 : 1.78} />
+          <Earth position={[0, 0, 0]} scale={isMobile ? 1.25 : isTablet ? 1.45 : 1.78} segments={isMobile ? 32 : 48} />
         </group>
         <group ref={marsRef} position={isMobile ? [2.65, 1.35, -7.5] : [4.15, 1.4, -7]}>
           <Mars
             atmosphereControlRef={marsGlowRef}
             position={[0, 0, 0]}
             scale={isMobile ? 0.32 : 0.5}
+            segments={isMobile ? 32 : 48}
           />
         </group>
         <group ref={spacecraftRef} position={isMobile ? [0.98, -0.12, -0.15] : isTablet ? [1.45, -0.06, 0] : [2.08, -0.05, 0.12]}>

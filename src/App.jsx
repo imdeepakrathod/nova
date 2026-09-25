@@ -17,7 +17,6 @@ import { createMarsAnimation } from './animations/marsAnimation.js';
 import { createSpacecraftAnimation } from './animations/spacecraftAnimation.js';
 import { createTimelineAnimation } from './animations/timelineAnimation.js';
 import useSmoothScroll from './hooks/useSmoothScroll.js';
-import useScrollProgress from './hooks/useScrollProgress.js';
 import { createPagePolish } from './animations/pagePolish.js';
 import CustomCursor from './components/ui/CustomCursor.jsx';
 import LoadingScreen from './components/ui/LoadingScreen.jsx';
@@ -48,7 +47,6 @@ function SceneAnimationController({ sceneRefs }) {
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   useSmoothScroll();
-  useScrollProgress();
   const sceneRefs = useRef({});
   const completeLoading = useCallback(() => setIsLoading(false), []);
 

@@ -1,6 +1,21 @@
 import { useFrame, useLoader } from '@react-three/fiber';
-import { memo, useMemo, useRef } from 'react';
+import { Component, memo, useEffect, useMemo, useRef } from 'react';
 import { BackSide, SRGBColorSpace, TextureLoader } from 'three';
+
+class PlanetTextureBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  render() {
+    return this.state.hasError ? this.props.fallback : this.props.children;
+  }
+}
 
 function PlanetSurface({ texturePath, color, roughness, metalness }) {
   const texture = useLoader(TextureLoader, texturePath);
@@ -31,10 +46,17 @@ function Planet({
   roughness = 0.78,
   metalness = 0,
   atmosphereControlRef,
+  segments = 48,
 }) {
   const planetRef = useRef(null);
   const atmosphereRef = useRef(null);
-  const sphereArgs = useMemo(() => [1, 64, 64], []);
+  const sphereArgs = useMemo(() => [1, segments, segments], [segments]);
+
+  useEffect(() => {
+    if (atmosphereControlRef?.current && atmosphereRef.current) {
+      atmosphereControlRef.current.material = atmosphereRef.current.material;
+    }
+  }, [atmosphereControlRef]);
 
   useFrame((state, delta) => {
     if (!planetRef.current) return;
@@ -46,9 +68,6 @@ function Planet({
       const baseOpacity = atmosphereControlRef?.current?.opacity ?? atmosphereOpacity;
       atmosphereRef.current.material.opacity =
         baseOpacity + Math.sin(state.clock.elapsedTime * 0.7) * 0.025;
-      if (atmosphereControlRef?.current) {
-        atmosphereControlRef.current.material = atmosphereRef.current.material;
-      }
     }
   });
 
@@ -57,12 +76,24 @@ function Planet({
       <mesh ref={planetRef}>
         <sphereGeometry args={sphereArgs} />
         {texturePath ? (
-          <PlanetSurface
-            color={color}
-            metalness={metalness}
-            roughness={roughness}
-            texturePath={texturePath}
-          />
+          <PlanetTextureBoundary
+            fallback={(
+              <meshStandardMaterial
+                color={color}
+                emissive={emissive}
+                emissiveIntensity={emissiveIntensity}
+                metalness={metalness}
+                roughness={roughness}
+              />
+            )}
+          >
+            <PlanetSurface
+              color={color}
+              metalness={metalness}
+              roughness={roughness}
+              texturePath={texturePath}
+            />
+          </PlanetTextureBoundary>
         ) : (
           <meshStandardMaterial
             color={color}

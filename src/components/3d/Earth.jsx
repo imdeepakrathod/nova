@@ -6,6 +6,7 @@ function Earth({
   position = [-3.2, -1.3, -4],
   scale = 1.6,
   rotation = [0.12, 0, -0.18],
+  segments = 48,
 }) {
   return (
     <Planet
@@ -19,6 +20,7 @@ function Earth({
       rotationSpeed={0.035}
       roughness={0.72}
       scale={scale}
+      segments={segments}
       texturePath={texturePath}
     />
   );

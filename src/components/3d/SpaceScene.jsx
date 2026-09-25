@@ -43,7 +43,7 @@ function SpaceScene({
     <div className={`relative h-full w-full ${className}`}>
       <Canvas
         camera={camera}
-        dpr={[1, 1.6]}
+        dpr={[1, 1.35]}
         frameloop="always"
         gl={gl}
         onCreated={({ gl: renderer }) => {

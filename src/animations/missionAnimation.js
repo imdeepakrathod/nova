@@ -1,4 +1,4 @@
-import { configureGsap, gsap, ScrollTrigger } from './gsapConfig.js';
+import { configureGsap, gsap } from './gsapConfig.js';
 
 export function createMissionAnimation({ scene, isMobile, reducedMotion = false }) {
   configureGsap();
@@ -27,8 +27,5 @@ export function createMissionAnimation({ scene, isMobile, reducedMotion = false 
 
   return () => {
     context.revert();
-    ScrollTrigger.getAll().forEach((trigger) => {
-      if (trigger.vars.trigger === '#mission') trigger.kill();
-    });
   };
 }

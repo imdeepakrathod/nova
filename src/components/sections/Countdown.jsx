@@ -4,8 +4,11 @@ import SectionHeading from '../ui/SectionHeading.jsx';
 
 export const launchDate = new Date('2028-10-14T16:30:00Z');
 
-function getTimeRemaining() {
-  const difference = Math.max(0, launchDate.getTime() - Date.now());
+function getTimeRemaining(targetDate) {
+  const targetTime = targetDate instanceof Date ? targetDate.getTime() : NaN;
+  if (!Number.isFinite(targetTime)) return null;
+
+  const difference = Math.max(0, targetTime - Date.now());
   return {
     days: Math.floor(difference / 86400000),
     hours: Math.floor((difference / 3600000) % 24),
@@ -14,24 +17,28 @@ function getTimeRemaining() {
   };
 }
 
-function useCountdown() {
-  const [time, setTime] = useState(getTimeRemaining);
+function useCountdown(targetDate) {
+  const [time, setTime] = useState(() => getTimeRemaining(targetDate));
 
   useEffect(() => {
-    const intervalId = window.setInterval(() => setTime(getTimeRemaining()), 1000);
+    setTime(getTimeRemaining(targetDate));
+    if (!Number.isFinite(targetDate?.getTime?.())) return undefined;
+
+    const intervalId = window.setInterval(() => setTime(getTimeRemaining(targetDate)), 1000);
     return () => window.clearInterval(intervalId);
-  }, []);
+  }, [targetDate]);
 
   return time;
 }
 
-function Countdown() {
-  const time = useCountdown();
+function Countdown({ targetDate = launchDate }) {
+  const time = useCountdown(targetDate);
+  const safeTime = time ?? { days: 0, hours: 0, minutes: 0, seconds: 0 };
   const countdownBlocks = [
-    [time.days, 'Days'],
-    [time.hours, 'Hours'],
-    [time.minutes, 'Minutes'],
-    [time.seconds, 'Seconds'],
+    [safeTime.days, 'Days'],
+    [safeTime.hours, 'Hours'],
+    [safeTime.minutes, 'Minutes'],
+    [safeTime.seconds, 'Seconds'],
   ];
 
   return (
@@ -41,7 +48,7 @@ function Countdown() {
           <SectionHeading
             eyebrow="Countdown"
             title="Launch window initialized."
-            description="Launch window: 14 October 2028, 16:30 UTC. Mission control is counting toward the first departure burn."
+            description={Number.isFinite(targetDate?.getTime?.()) ? 'Launch window: 14 October 2028, 16:30 UTC. Mission control is counting toward the first departure burn.' : 'Launch window unavailable. Mission control is standing by for a valid target date.'}
           />
           <div className="grid grid-cols-2 gap-px overflow-hidden border border-white/10 bg-white/10 md:grid-cols-4" aria-live="polite" aria-label="Time remaining until NOVA-01 launch">
             {countdownBlocks.map(([value, label]) => (
