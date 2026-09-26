@@ -3,6 +3,7 @@ import Planet from './Planet.jsx';
 
 function Mars({
   texturePath,
+  normalPath,
   position = [3.8, 1.25, -6.5],
   scale = 0.48,
   rotation = [0.05, 0, 0.12],
@@ -22,6 +23,7 @@ function Mars({
       roughness={0.88}
       scale={scale}
       segments={segments}
+      normalPath={normalPath}
       texturePath={texturePath}
       atmosphereControlRef={atmosphereControlRef}
     />

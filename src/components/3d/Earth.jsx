@@ -3,6 +3,7 @@ import Planet from './Planet.jsx';
 
 function Earth({
   texturePath,
+  normalPath,
   position = [-3.2, -1.3, -4],
   scale = 1.6,
   rotation = [0.12, 0, -0.18],
@@ -21,6 +22,7 @@ function Earth({
       roughness={0.72}
       scale={scale}
       segments={segments}
+      normalPath={normalPath}
       texturePath={texturePath}
     />
   );

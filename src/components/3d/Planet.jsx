@@ -17,16 +17,18 @@ class PlanetTextureBoundary extends Component {
   }
 }
 
-function PlanetSurface({ texturePath, color, roughness, metalness }) {
-  const texture = useLoader(TextureLoader, texturePath);
+function PlanetSurface({ texturePath, normalPath, color, roughness, metalness }) {
+  const [texture, normalTexture] = useLoader(TextureLoader, [texturePath, normalPath || texturePath]);
 
   texture.colorSpace = SRGBColorSpace;
+  if (normalTexture && normalPath) normalTexture.colorSpace = SRGBColorSpace;
 
   return (
     <meshStandardMaterial
       color={color}
       map={texture}
       metalness={metalness}
+      normalMap={normalPath ? normalTexture : null}
       roughness={roughness}
     />
   );
@@ -42,6 +44,7 @@ function Planet({
   atmosphereColor = '#FF6A3A',
   atmosphereOpacity = 0.18,
   texturePath,
+  normalPath,
   rotationSpeed = 0.05,
   roughness = 0.78,
   metalness = 0,
@@ -90,6 +93,7 @@ function Planet({
             <PlanetSurface
               color={color}
               metalness={metalness}
+              normalPath={normalPath}
               roughness={roughness}
               texturePath={texturePath}
             />

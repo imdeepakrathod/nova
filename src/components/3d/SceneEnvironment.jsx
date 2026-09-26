@@ -5,6 +5,7 @@ import Mars from './Mars.jsx';
 import Spacecraft from './Spacecraft.jsx';
 import SpaceParticles from './SpaceParticles.jsx';
 import StarField from './StarField.jsx';
+import { assets, resolveAsset } from '../../config/assets.js';
 
 function SceneEnvironment({ sceneRefs }) {
   const rigRef = useRef(null);
@@ -54,7 +55,13 @@ function SceneEnvironment({ sceneRefs }) {
 
       <group ref={rigRef}>
         <group ref={earthRef} position={isMobile ? [1.95, -1.8, -3.6] : [-3.4, -1.35, -4.4]}>
-          <Earth position={[0, 0, 0]} scale={isMobile ? 1.25 : isTablet ? 1.45 : 1.78} segments={isMobile ? 32 : 48} />
+          <Earth
+            position={[0, 0, 0]}
+            scale={isMobile ? 1.25 : isTablet ? 1.45 : 1.78}
+            segments={isMobile ? 32 : 48}
+            normalPath={resolveAsset(assets.textures.earth.normal)}
+            texturePath={resolveAsset(assets.textures.earth.surface)}
+          />
         </group>
         <group ref={marsRef} position={isMobile ? [2.65, 1.35, -7.5] : [4.15, 1.4, -7]}>
           <Mars
@@ -62,10 +69,13 @@ function SceneEnvironment({ sceneRefs }) {
             position={[0, 0, 0]}
             scale={isMobile ? 0.32 : 0.5}
             segments={isMobile ? 32 : 48}
+            normalPath={resolveAsset(assets.textures.mars.normal)}
+            texturePath={resolveAsset(assets.textures.mars.surface)}
           />
         </group>
         <group ref={spacecraftRef} position={isMobile ? [0.98, -0.12, -0.15] : isTablet ? [1.45, -0.06, 0] : [2.08, -0.05, 0.12]}>
           <Spacecraft
+            modelPath={resolveAsset(assets.models.spacecraft)}
             position={[0, 0, 0]}
             rotation={isMobile ? [0.16, -0.48, 0.12] : [0.18, -0.58, 0.08]}
             scale={isMobile ? 0.62 : isTablet ? 0.82 : 1.12}

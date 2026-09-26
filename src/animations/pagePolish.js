@@ -8,6 +8,9 @@ export function createPagePolish({ reducedMotion = false } = {}) {
     const headings = gsap.utils.toArray('[data-reveal-heading]');
     const copies = gsap.utils.toArray('[data-reveal-copy]');
     const ctas = gsap.utils.toArray('[data-reveal-cta]');
+    const heroWords = gsap.utils.toArray('#top .reveal-word');
+    const heroCopies = gsap.utils.toArray('#top [data-reveal-copy]');
+    const heroCtas = gsap.utils.toArray('#top [data-reveal-cta]');
 
     if (reducedMotion) {
       gsap.set([...words, ...headings, ...copies, ...ctas], { clearProps: 'all' });
@@ -20,9 +23,9 @@ export function createPagePolish({ reducedMotion = false } = {}) {
     const intro = gsap.timeline({ defaults: { ease: 'power3.out' } });
     intro
       .to('.hero-eyebrow', { opacity: 1, y: 0, duration: 0.55 })
-      .to(words, { opacity: 1, y: 0, duration: 0.65, stagger: 0.055 }, '-=0.2')
-      .to(copies, { opacity: 1, y: 0, duration: 0.7 }, '-=0.25')
-      .to(ctas, { opacity: 1, y: 0, duration: 0.55, stagger: 0.1 }, '-=0.3');
+      .to(heroWords, { opacity: 1, y: 0, duration: 0.65, stagger: 0.055 }, '-=0.2')
+      .to(heroCopies, { opacity: 1, y: 0, duration: 0.7 }, '-=0.25')
+      .to(heroCtas, { opacity: 1, y: 0, duration: 0.55, stagger: 0.1 }, '-=0.3');
 
     headings.forEach((heading) => {
       if (heading.closest('#top')) return;

@@ -59,6 +59,7 @@ button:focus-visible {
 }
 
 main > section {
+  position: relative;
   isolation: isolate;
 }
 
