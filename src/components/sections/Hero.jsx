@@ -16,9 +16,9 @@ function Hero() {
   return (
     <section
       id="top"
-      className="relative min-h-screen overflow-hidden bg-nova-black pt-28"
+      className="relative min-h-screen overflow-hidden pt-28"
     >
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(2,3,8,0.98)_0%,rgba(2,3,8,0.84)_38%,rgba(2,3,8,0.34)_72%,rgba(2,3,8,0.1)_100%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(2,3,8,0.86)_0%,rgba(2,3,8,0.64)_38%,rgba(2,3,8,0.22)_72%,rgba(2,3,8,0.04)_100%)]" />
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(2,3,8,0.16)_0%,rgba(2,3,8,0)_42%,rgba(2,3,8,0.92)_100%)]" />
       <div className="absolute inset-x-0 bottom-0 h-px bg-white/10" />
       <div className="nova-container relative z-10 flex min-h-[calc(100vh-7rem)] items-center py-16">

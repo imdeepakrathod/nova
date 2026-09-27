@@ -32,6 +32,7 @@ function Spacecraft({
   position = [1.8, -0.1, 0],
   rotation = [0.18, -0.55, 0.1],
   scale = 1,
+  modelRotation = [0, 0, 0],
 }) {
   const groupRef = useRef(null);
   const fallback = useMemo(() => <SpacecraftFallback />, []);
@@ -54,7 +55,7 @@ function Spacecraft({
       {modelPath ? (
         <ModelErrorBoundary fallback={fallback}>
           <Suspense fallback={fallback}>
-            <SpacecraftModel modelPath={modelPath} />
+            <SpacecraftModel modelPath={modelPath} rotation={modelRotation} />
           </Suspense>
         </ModelErrorBoundary>
       ) : (

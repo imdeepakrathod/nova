@@ -7,7 +7,7 @@ import SpaceParticles from './SpaceParticles.jsx';
 import StarField from './StarField.jsx';
 import { assets, resolveAsset } from '../../config/assets.js';
 
-function SceneEnvironment({ sceneRefs }) {
+function SceneEnvironment({ onReady, sceneRefs }) {
   const rigRef = useRef(null);
   const starsRef = useRef(null);
   const earthRef = useRef(null);
@@ -30,7 +30,13 @@ function SceneEnvironment({ sceneRefs }) {
       marsGlow: marsGlowRef.current,
       starIntensity: starIntensityRef.current,
     });
-  }, [camera, sceneRefs]);
+    onReady?.();
+
+    return () => {
+      sceneRefs.current = {};
+      onReady?.(false);
+    };
+  }, [camera, onReady, sceneRefs]);
 
   useFrame(({ pointer }, delta) => {
     if (!rigRef.current) return;

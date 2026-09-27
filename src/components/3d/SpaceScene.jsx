@@ -67,6 +67,13 @@ function SpaceScene({
           intensity={0.85}
           position={[-3.5, -1.5, 2.5]}
         />
+        <pointLight
+          color="#FF4D00"
+          distance={9}
+          decay={2}
+          intensity={1.1}
+          position={[2, -0.7, 1.5]}
+        />
         <Suspense fallback={null}>{children}</Suspense>
       </Canvas>
       <Loader

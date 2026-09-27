@@ -1,6 +1,6 @@
 import { useFrame, useLoader } from '@react-three/fiber';
 import { Component, memo, useEffect, useMemo, useRef } from 'react';
-import { BackSide, SRGBColorSpace, TextureLoader } from 'three';
+import { AdditiveBlending, BackSide, SRGBColorSpace, TextureLoader } from 'three';
 
 class PlanetTextureBoundary extends Component {
   constructor(props) {
@@ -53,6 +53,7 @@ function Planet({
 }) {
   const planetRef = useRef(null);
   const atmosphereRef = useRef(null);
+  const glowRef = useRef(null);
   const sphereArgs = useMemo(() => [1, segments, segments], [segments]);
 
   useEffect(() => {
@@ -71,6 +72,11 @@ function Planet({
       const baseOpacity = atmosphereControlRef?.current?.opacity ?? atmosphereOpacity;
       atmosphereRef.current.material.opacity =
         baseOpacity + Math.sin(state.clock.elapsedTime * 0.7) * 0.025;
+    }
+
+    if (glowRef.current) {
+      glowRef.current.material.opacity =
+        (atmosphereControlRef?.current?.opacity ?? atmosphereOpacity) * 0.7;
     }
   });
 
@@ -117,6 +123,17 @@ function Planet({
           opacity={atmosphereOpacity}
           side={BackSide}
           depthWrite={false}
+        />
+      </mesh>
+      <mesh ref={glowRef} scale={1.12}>
+        <sphereGeometry args={sphereArgs} />
+        <meshBasicMaterial
+          blending={AdditiveBlending}
+          color={atmosphereColor}
+          depthWrite={false}
+          opacity={atmosphereOpacity * 0.7}
+          side={BackSide}
+          transparent
         />
       </mesh>
     </group>

@@ -21,12 +21,14 @@ import { createPagePolish } from './animations/pagePolish.js';
 import CustomCursor from './components/ui/CustomCursor.jsx';
 import LoadingScreen from './components/ui/LoadingScreen.jsx';
 
-function SceneAnimationController({ sceneRefs }) {
+function SceneAnimationController({ ready, sceneRefs }) {
   const { size } = useThree();
 
   useEffect(() => {
+    if (!ready) return undefined;
+
     const scene = sceneRefs.current;
-    if (!scene.camera || !scene.spacecraft || !scene.earth || !scene.mars) return undefined;
+    if (!scene.camera || !scene.spacecraft || !scene.earth || !scene.mars || !scene.stars) return undefined;
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const options = { scene, isMobile: size.width < 640, reducedMotion };
@@ -39,16 +41,18 @@ function SceneAnimationController({ sceneRefs }) {
     ];
 
     return () => cleanups.forEach((cleanup) => cleanup());
-  }, [sceneRefs, size.width]);
+  }, [ready, sceneRefs, size.width]);
 
   return null;
 }
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
+  const [sceneReady, setSceneReady] = useState(false);
   useSmoothScroll();
   const sceneRefs = useRef({});
   const completeLoading = useCallback(() => setIsLoading(false), []);
+  const handleSceneReady = useCallback((ready = true) => setSceneReady(ready), []);
 
   useEffect(() => {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -61,17 +65,17 @@ function App() {
       <CustomCursor />
       <div className="pointer-events-none fixed inset-0 z-0 opacity-90">
         <SpaceScene>
-          <SceneEnvironment sceneRefs={sceneRefs} />
-          <SceneAnimationController sceneRefs={sceneRefs} />
+          <SceneEnvironment onReady={handleSceneReady} sceneRefs={sceneRefs} />
+          <SceneAnimationController ready={sceneReady} sceneRefs={sceneRefs} />
         </SpaceScene>
       </div>
       <Navbar />
       <main className="relative z-10">
         <Hero />
-        <Mission />
         <Spacecraft />
         <Timeline />
         <Mars />
+        <Mission />
         <Crew />
         <Countdown />
       </main>
