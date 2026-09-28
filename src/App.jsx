@@ -11,10 +11,7 @@ import Spacecraft from './components/sections/Spacecraft.jsx';
 import Timeline from './components/sections/Timeline.jsx';
 import SceneEnvironment from './components/3d/SceneEnvironment.jsx';
 import SpaceScene from './components/3d/SpaceScene.jsx';
-import { createHeroAnimation } from './animations/heroAnimation.js';
-import { createMissionAnimation } from './animations/missionAnimation.js';
-import { createMarsAnimation } from './animations/marsAnimation.js';
-import { createSpacecraftAnimation } from './animations/spacecraftAnimation.js';
+import { createJourneyAnimation } from './animations/journeyAnimation.js';
 import { createTimelineAnimation } from './animations/timelineAnimation.js';
 import useSmoothScroll from './hooks/useSmoothScroll.js';
 import { createPagePolish } from './animations/pagePolish.js';
@@ -33,10 +30,7 @@ function SceneAnimationController({ ready, sceneRefs }) {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const options = { scene, isMobile: size.width < 640, reducedMotion };
     const cleanups = [
-      createHeroAnimation(options),
-      createMissionAnimation(options),
-      createSpacecraftAnimation(options),
-      createMarsAnimation(options),
+      createJourneyAnimation(options),
       createTimelineAnimation(options),
     ];
 
@@ -72,10 +66,10 @@ function App() {
       <Navbar />
       <main className="relative z-10">
         <Hero />
+        <Mission />
         <Spacecraft />
         <Timeline />
         <Mars />
-        <Mission />
         <Crew />
         <Countdown />
       </main>

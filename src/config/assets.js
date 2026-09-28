@@ -22,9 +22,18 @@ export const assets = {
       '/images/crew-jonas-reed.jpg',
       '/images/crew-lena-petrov.jpg',
     ],
+    crewFallbacks: [
+      'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=900&q=85',
+      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=85',
+      'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=900&q=85',
+    ],
   },
 };
 
 export function resolveAsset(path) {
   return useLocalAssets ? path : null;
+}
+
+export function resolveImage(path, fallback) {
+  return useLocalAssets ? path : fallback;
 }

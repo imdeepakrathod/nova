@@ -1,6 +1,7 @@
 import { FiBox, FiCrosshair, FiMaximize, FiZap } from 'react-icons/fi';
 import SectionHeading from '../ui/SectionHeading.jsx';
 import useTilt from '../../hooks/useTilt.js';
+import SpacecraftShowcase from '../3d/SpacecraftShowcase.jsx';
 
 const specs = [
   { label: 'Payload', value: 'Mars lander + science bay' },
@@ -34,12 +35,13 @@ function Spacecraft() {
         </div>
 
         <div className="space-y-8">
-          <div className="relative flex min-h-[20rem] items-end overflow-hidden border border-white/10 bg-[radial-gradient(circle_at_60%_45%,rgba(255,77,0,0.18),transparent_24%),rgba(255,255,255,0.025)] p-5 sm:min-h-[25rem] sm:p-8">
-            <div className="absolute inset-0 bg-[linear-gradient(115deg,transparent_40%,rgba(255,255,255,0.06)_40.2%,transparent_40.5%)]" />
+          <div className="relative min-h-[20rem] overflow-hidden border border-white/10 bg-[radial-gradient(circle_at_60%_45%,rgba(255,77,0,0.18),transparent_24%),rgba(255,255,255,0.025)] sm:min-h-[25rem]">
+            <SpacecraftShowcase />
+            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,transparent_40%,rgba(255,255,255,0.06)_40.2%,transparent_40.5%)]" />
             <div className="relative flex w-full items-end justify-between border-t border-white/15 pt-4">
               <div>
-                <p className="text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-nova-accent">Live scene</p>
-                <p className="mt-2 text-sm text-nova-muted">NOVA-01 orbital configuration</p>
+                <p className="text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-nova-accent">NOVA-01 / 3D vehicle</p>
+                <p className="mt-2 text-sm text-nova-muted">Crewed Mars transfer configuration</p>
               </div>
               <FiMaximize aria-hidden="true" className="text-xl text-nova-muted" />
             </div>

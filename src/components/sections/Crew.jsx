@@ -1,6 +1,6 @@
 import SectionHeading from '../ui/SectionHeading.jsx';
 import useTilt from '../../hooks/useTilt.js';
-import { assets, resolveAsset } from '../../config/assets.js';
+import { assets, resolveImage } from '../../config/assets.js';
 
 const crew = [
   {
@@ -20,14 +20,26 @@ const crew = [
   },
 ];
 
-function CrewMember({ name, role, responsibility, image }) {
+function CrewMember({ name, role, responsibility, image, fallbackImage }) {
   const ref = useTilt({ strength: 5 });
 
   return (
     <article ref={ref} data-cursor className="tilt-card glass-panel group p-4 transition-transform duration-500 hover:-translate-y-2 focus-within:-translate-y-2 sm:p-6">
       <div className="relative mb-7 aspect-[4/5] overflow-hidden border border-white/10 bg-white/[0.025]">
         {image ? (
-          <img src={image} alt={`${name}, ${role}`} className="h-full w-full object-cover grayscale transition duration-700 group-hover:scale-105 group-hover:grayscale-0" loading="lazy" />
+          <img
+            src={image}
+            alt={`${name}, ${role}`}
+            className="h-full w-full object-cover grayscale transition duration-700 group-hover:scale-105 group-hover:grayscale-0"
+            loading="lazy"
+            onError={(event) => {
+              if (fallbackImage && event.currentTarget.src !== fallbackImage) {
+                event.currentTarget.src = fallbackImage;
+              } else {
+                event.currentTarget.style.display = 'none';
+              }
+            }}
+          />
         ) : (
           <div className="flex h-full items-center justify-center bg-[radial-gradient(circle_at_50%_32%,rgba(255,77,0,0.25),transparent_18%),linear-gradient(145deg,#151923,#05060a)]" role="img" aria-label={`${name}, ${role}`}>
             <span className="font-display text-5xl font-semibold text-white/20">N-01</span>
@@ -57,7 +69,8 @@ function Crew() {
           <CrewMember
             key={member.name}
             {...member}
-            image={resolveAsset(assets.images.crew[index])}
+            image={resolveImage(assets.images.crew[index], assets.images.crewFallbacks[index])}
+            fallbackImage={assets.images.crewFallbacks[index]}
           />
         ))}
       </div>
