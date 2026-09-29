@@ -7,6 +7,7 @@ function SpaceParticles({
   color = '#FFB38A',
   size = 0.018,
   opacity = 0.22,
+  reducedMotion = false,
 }) {
   const pointsRef = useRef(null);
   const positions = useMemo(() => {
@@ -24,6 +25,7 @@ function SpaceParticles({
 
   useFrame((_, delta) => {
     if (!pointsRef.current) return;
+    if (reducedMotion) return;
 
     pointsRef.current.rotation.y += delta * 0.009;
     pointsRef.current.rotation.z += delta * 0.003;

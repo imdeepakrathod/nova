@@ -1,6 +1,21 @@
 import { Loader } from '@react-three/drei';
 import { Canvas, useThree } from '@react-three/fiber';
 import { Suspense, memo, useEffect, useMemo } from 'react';
+import WebGLFallback from '../ui/WebGLFallback.jsx';
+
+function SceneLighting() {
+  const { size } = useThree();
+  const isMobile = size.width < 640;
+
+  return (
+    <>
+      <ambientLight color="#AFC8FF" intensity={isMobile ? 0.2 : 0.26} />
+      <directionalLight color="#FFFFFF" intensity={isMobile ? 1.55 : 2.1} position={[4.5, 3.2, 4]} />
+      {!isMobile && <directionalLight color="#FF4D00" intensity={0.85} position={[-3.5, -1.5, 2.5]} />}
+      {!isMobile && <pointLight color="#FF4D00" distance={9} decay={2} intensity={1.1} position={[2, -0.7, 1.5]} />}
+    </>
+  );
+}
 
 function ResponsiveCamera({ desktop, tablet, mobile }) {
   const { camera, size } = useThree();
@@ -46,6 +61,7 @@ function SpaceScene({
         dpr={[1, 1.35]}
         frameloop="always"
         gl={gl}
+        fallback={<WebGLFallback />}
         onCreated={({ gl: renderer }) => {
           renderer.setClearColor('#020308', transparent ? 0 : 1);
         }}
@@ -56,24 +72,7 @@ function SpaceScene({
           mobile={mobileCamera}
           tablet={tabletCamera}
         />
-        <ambientLight color="#AFC8FF" intensity={0.26} />
-        <directionalLight
-          color="#FFFFFF"
-          intensity={2.1}
-          position={[4.5, 3.2, 4]}
-        />
-        <directionalLight
-          color="#FF4D00"
-          intensity={0.85}
-          position={[-3.5, -1.5, 2.5]}
-        />
-        <pointLight
-          color="#FF4D00"
-          distance={9}
-          decay={2}
-          intensity={1.1}
-          position={[2, -0.7, 1.5]}
-        />
+        <SceneLighting />
         <Suspense fallback={null}>{children}</Suspense>
       </Canvas>
       <Loader

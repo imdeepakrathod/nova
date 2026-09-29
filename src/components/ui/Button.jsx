@@ -18,7 +18,7 @@ function Button({
   ...props
 }) {
   const classes = [
-    'inline-flex h-12 items-center justify-center gap-2 rounded-sm border px-5 text-xs font-semibold uppercase tracking-[0.18em] transition duration-300 focus:outline-none focus:ring-2 focus:ring-nova-accent focus:ring-offset-2 focus:ring-offset-nova-black',
+    'group inline-flex h-12 items-center justify-center gap-2 rounded-sm border px-5 text-xs font-semibold uppercase tracking-[0.18em] transition duration-300 focus:outline-none focus:ring-2 focus:ring-nova-accent focus:ring-offset-2 focus:ring-offset-nova-black',
     variants[variant],
     className,
   ].join(' ');
@@ -26,16 +26,16 @@ function Button({
   if (href) {
     return (
       <a className={classes} href={href} {...props}>
-        <span data-reveal-cta>{children}</span>
-        {showIcon && <FiArrowRight aria-hidden="true" className="text-base" />}
+        <span>{children}</span>
+        {showIcon && <FiArrowRight aria-hidden="true" className="text-base transition-transform duration-300 group-hover:translate-x-1" />}
       </a>
     );
   }
 
   return (
     <button className={classes} type="button" {...props}>
-      <span data-reveal-cta>{children}</span>
-      {showIcon && <FiArrowRight aria-hidden="true" className="text-base" />}
+      <span>{children}</span>
+      {showIcon && <FiArrowRight aria-hidden="true" className="text-base transition-transform duration-300 group-hover:translate-x-1" />}
     </button>
   );
 }

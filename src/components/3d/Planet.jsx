@@ -50,6 +50,7 @@ function Planet({
   metalness = 0,
   atmosphereControlRef,
   segments = 48,
+  reducedMotion = false,
 }) {
   const planetRef = useRef(null);
   const atmosphereRef = useRef(null);
@@ -64,6 +65,7 @@ function Planet({
 
   useFrame((state, delta) => {
     if (!planetRef.current) return;
+    if (reducedMotion) return;
 
     planetRef.current.rotation.y += delta * rotationSpeed;
 

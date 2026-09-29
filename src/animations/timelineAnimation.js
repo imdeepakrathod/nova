@@ -6,7 +6,7 @@ export function createTimelineAnimation({ reducedMotion = false } = {}) {
 
   const context = gsap.context(() => {
     gsap.fromTo(
-      '.timeline-stage',
+      '#journey .timeline-stage',
       { opacity: 0.2, y: 28 },
       {
         opacity: 1,

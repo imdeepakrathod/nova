@@ -6,6 +6,7 @@ import Spacecraft from './Spacecraft.jsx';
 import SpaceParticles from './SpaceParticles.jsx';
 import StarField from './StarField.jsx';
 import { assets, resolveAsset } from '../../config/assets.js';
+import usePrefersReducedMotion from '../../hooks/usePrefersReducedMotion.js';
 
 function SceneEnvironment({ onReady, sceneRefs }) {
   const rigRef = useRef(null);
@@ -18,6 +19,8 @@ function SceneEnvironment({ onReady, sceneRefs }) {
   const { camera, size } = useThree();
   const isMobile = size.width < 640;
   const isTablet = size.width >= 640 && size.width < 1024;
+  const reducedMotion = usePrefersReducedMotion();
+  const lowComplexity = isMobile || reducedMotion;
 
   useEffect(() => {
     Object.assign(sceneRefs.current, {
@@ -40,6 +43,7 @@ function SceneEnvironment({ onReady, sceneRefs }) {
 
   useFrame(({ pointer }, delta) => {
     if (!rigRef.current) return;
+    if (reducedMotion) return;
 
     const targetY = pointer.x * (isMobile ? 0.035 : 0.075);
     const targetX = -pointer.y * (isMobile ? 0.018 : 0.035);
@@ -52,12 +56,18 @@ function SceneEnvironment({ onReady, sceneRefs }) {
       <fog attach="fog" args={['#020308', isMobile ? 8 : 10, 34]} />
       <group ref={starsRef}>
         <StarField
-          count={isMobile ? 700 : isTablet ? 1700 : 3200}
+          count={lowComplexity ? 500 : isTablet ? 1700 : 3200}
           intensityRef={starIntensityRef}
           mobile={isMobile}
+          reducedMotion={reducedMotion}
         />
       </group>
-      <SpaceParticles count={isMobile ? 50 : isTablet ? 110 : 180} opacity={isMobile ? 0.13 : 0.2} spread={isMobile ? 6 : 9} />
+      <SpaceParticles
+        count={lowComplexity ? 50 : isTablet ? 110 : 180}
+        opacity={isMobile ? 0.13 : 0.2}
+        reducedMotion={reducedMotion}
+        spread={isMobile ? 6 : 9}
+      />
 
       <group ref={rigRef}>
         <group ref={earthRef} position={isMobile ? [1.95, -1.8, -3.6] : [-3.4, -1.35, -4.4]}>
@@ -66,6 +76,7 @@ function SceneEnvironment({ onReady, sceneRefs }) {
             scale={isMobile ? 1.25 : isTablet ? 1.45 : 1.78}
             segments={isMobile ? 32 : 48}
             normalPath={resolveAsset(assets.textures.earth.normal)}
+            reducedMotion={reducedMotion}
             texturePath={resolveAsset(assets.textures.earth.surface)}
           />
         </group>
@@ -76,6 +87,7 @@ function SceneEnvironment({ onReady, sceneRefs }) {
             scale={isMobile ? 0.32 : 0.5}
             segments={isMobile ? 32 : 48}
             normalPath={resolveAsset(assets.textures.mars.normal)}
+            reducedMotion={reducedMotion}
             texturePath={resolveAsset(assets.textures.mars.surface)}
           />
         </group>
@@ -83,6 +95,7 @@ function SceneEnvironment({ onReady, sceneRefs }) {
           <Spacecraft
             modelPath={resolveAsset(assets.models.spacecraft)}
             position={[0, 0, 0]}
+            reducedMotion={reducedMotion}
             rotation={isMobile ? [0.16, -0.48, 0.12] : [0.18, -0.58, 0.08]}
             scale={isMobile ? 0.62 : isTablet ? 0.82 : 1.12}
           />

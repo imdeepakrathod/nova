@@ -2,7 +2,7 @@ import { Stars } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import { memo, useMemo, useRef } from 'react';
 
-function StarField({ count = 4200, mobile = false, intensityRef }) {
+function StarField({ count = 4200, mobile = false, intensityRef, reducedMotion = false }) {
   const groupRef = useRef(null);
   const lastIntensityRef = useRef(null);
   const layers = useMemo(
@@ -29,6 +29,7 @@ function StarField({ count = 4200, mobile = false, intensityRef }) {
 
   useFrame((_, delta) => {
     if (!groupRef.current) return;
+    if (reducedMotion) return;
 
     groupRef.current.rotation.y += delta * 0.005;
     groupRef.current.rotation.x += delta * 0.0015;

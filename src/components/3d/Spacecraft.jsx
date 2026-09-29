@@ -33,6 +33,7 @@ function Spacecraft({
   rotation = [0.18, -0.55, 0.1],
   scale = 1,
   modelRotation = [0, 0, 0],
+  reducedMotion = false,
 }) {
   const groupRef = useRef(null);
   const fallback = useMemo(() => <SpacecraftFallback />, []);
@@ -43,6 +44,7 @@ function Spacecraft({
 
   useFrame((state) => {
     if (!groupRef.current) return;
+    if (reducedMotion) return;
 
     const elapsed = state.clock.elapsedTime;
     groupRef.current.position.y = position[1] + Math.sin(elapsed * 0.75) * 0.09;

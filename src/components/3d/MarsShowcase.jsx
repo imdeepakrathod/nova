@@ -2,8 +2,10 @@ import { memo } from 'react';
 import { assets, resolveAsset } from '../../config/assets.js';
 import Mars from './Mars.jsx';
 import ShowcaseCanvas from './ShowcaseCanvas.jsx';
+import usePrefersReducedMotion from '../../hooks/usePrefersReducedMotion.js';
 
 function MarsShowcase() {
+  const reducedMotion = usePrefersReducedMotion();
   return (
     <ShowcaseCanvas camera={[0, 0, 4.6]}>
       <Mars
@@ -11,6 +13,7 @@ function MarsShowcase() {
         position={[0, 0, 0]}
         scale={1.45}
         segments={48}
+        reducedMotion={reducedMotion}
         texturePath={resolveAsset(assets.textures.mars.surface)}
       />
     </ShowcaseCanvas>

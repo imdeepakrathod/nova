@@ -9,6 +9,7 @@ function Mars({
   rotation = [0.05, 0, 0.12],
   atmosphereControlRef,
   segments = 48,
+  reducedMotion = false,
 }) {
   return (
     <Planet
@@ -24,6 +25,7 @@ function Mars({
       scale={scale}
       segments={segments}
       normalPath={normalPath}
+      reducedMotion={reducedMotion}
       texturePath={texturePath}
       atmosphereControlRef={atmosphereControlRef}
     />
