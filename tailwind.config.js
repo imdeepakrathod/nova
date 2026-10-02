@@ -16,21 +16,13 @@ export default {
       },
       fontFamily: {
         sans: [
-          'Inter',
           'ui-sans-serif',
           'system-ui',
-          'Segoe UI',
-          'Roboto',
-          'Helvetica Neue',
-          'Arial',
           'sans-serif',
         ],
         display: [
-          'Satoshi',
-          'Inter',
           'ui-sans-serif',
           'system-ui',
-          'Segoe UI',
           'sans-serif',
         ],
       },

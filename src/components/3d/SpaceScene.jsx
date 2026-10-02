@@ -79,7 +79,7 @@ function SpaceScene({
         containerStyles={{ background: 'rgba(2, 3, 8, 0.72)' }}
         dataStyles={{
           color: '#FFFFFF',
-          fontFamily: 'Inter, system-ui, sans-serif',
+          fontFamily: 'ui-sans-serif, system-ui, sans-serif',
           letterSpacing: '0.16em',
         }}
         innerStyles={{ backgroundColor: '#FFFFFF' }}

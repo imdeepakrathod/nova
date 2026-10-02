@@ -23,8 +23,6 @@ export default function useSmoothScroll() {
 
     gsap.ticker.add(onTick);
     lenis.on('scroll', onScroll);
-    gsap.ticker.lagSmoothing(1000, 16);
-
     return () => {
       gsap.ticker.remove(onTick);
       lenis.off('scroll', onScroll);

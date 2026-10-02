@@ -16,11 +16,11 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 }
 
 html:focus-within {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 }
 
 body {
@@ -177,7 +177,7 @@ body:has(.cursor-ring) .cursor-ring {
 
 .loading-screen__eyebrow {
   color: #ff4d00;
-  font-family: Satoshi, Inter, sans-serif;
+  font-family: ui-sans-serif, system-ui, sans-serif;
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.35em;

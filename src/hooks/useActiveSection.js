@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function useActiveSection(sectionIds) {
   const [activeSection, setActiveSection] = useState('top');
+  const activeSectionRef = useRef('top');
 
   useEffect(() => {
     const sections = sectionIds
@@ -16,7 +17,10 @@ export default function useActiveSection(sectionIds) {
         const bounds = section.getBoundingClientRect();
         return bounds.top <= marker && bounds.bottom > marker;
       });
-      setActiveSection(current?.id ?? (window.scrollY < window.innerHeight * 0.5 ? 'top' : activeSection));
+      const nextSection = current?.id ?? (window.scrollY < window.innerHeight * 0.5 ? 'top' : activeSectionRef.current);
+      if (nextSection === activeSectionRef.current) return;
+      activeSectionRef.current = nextSection;
+      setActiveSection(nextSection);
     };
     const onScroll = () => {
       if (!frameId) frameId = requestAnimationFrame(updateActiveSection);
