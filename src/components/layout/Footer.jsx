@@ -9,7 +9,7 @@ const missionLinks = [
 
 function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-[#010207]">
+    <footer id="footer" className="border-t border-white/10 bg-[#010207]">
       <div className="nova-container grid gap-12 py-12 md:grid-cols-[1.2fr_0.8fr] md:py-16">
         <div>
           <div className="mb-3 flex items-center gap-3">
@@ -50,7 +50,7 @@ function Footer() {
         </div>
         <div className="flex flex-col gap-4 border-t border-white/10 pt-6 text-xs text-nova-muted sm:flex-row sm:items-center sm:justify-between md:col-span-2">
           <span>© 2026 NOVA Space Systems. Fictional concept.</span>
-          <div className="flex gap-5"><a href="#privacy" className="hover:text-nova-white">Privacy</a><a href="#terms" className="hover:text-nova-white">Terms</a></div>
+          <div className="flex gap-5"><a href="#footer" className="hover:text-nova-white">Privacy</a><a href="#footer" className="hover:text-nova-white">Terms</a></div>
         </div>
       </div>
     </footer>
