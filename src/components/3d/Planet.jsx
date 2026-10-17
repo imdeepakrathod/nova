@@ -34,6 +34,28 @@ function PlanetSurface({ texturePath, normalPath, color, roughness, metalness })
   );
 }
 
+const marsCraters = [
+  { position: [-0.58, 0.44, 0.7], scale: 0.16 },
+  { position: [0.34, 0.64, 0.7], scale: 0.11 },
+  { position: [0.68, -0.18, 0.72], scale: 0.13 },
+  { position: [-0.28, -0.42, 0.86], scale: 0.09 },
+  { position: [0.02, 0.04, 1.01], scale: 0.07 },
+  { position: [-0.74, -0.05, 0.65], scale: 0.08 },
+];
+
+function ProceduralSurfaceDetail({ detailRef, color }) {
+  return (
+    <group ref={detailRef}>
+      {marsCraters.map(({ position, scale }, index) => (
+        <mesh key={`${position.join('-')}-${index}`} position={position} scale={[scale, scale * 0.22, scale]}>
+          <sphereGeometry args={[1, 12, 8]} />
+          <meshStandardMaterial color={color} roughness={1} transparent opacity={0.34} />
+        </mesh>
+      ))}
+    </group>
+  );
+}
+
 function Planet({
   position = [0, 0, 0],
   rotation = [0, 0, 0],
@@ -51,10 +73,12 @@ function Planet({
   atmosphereControlRef,
   segments = 48,
   reducedMotion = false,
+  proceduralDetail = false,
 }) {
   const planetRef = useRef(null);
   const atmosphereRef = useRef(null);
   const glowRef = useRef(null);
+  const detailRef = useRef(null);
   const sphereArgs = useMemo(() => [1, segments, segments], [segments]);
 
   useEffect(() => {
@@ -68,6 +92,7 @@ function Planet({
     if (reducedMotion) return;
 
     planetRef.current.rotation.y += delta * rotationSpeed;
+    if (detailRef.current) detailRef.current.rotation.y += delta * rotationSpeed;
 
     if (atmosphereRef.current) {
       atmosphereRef.current.rotation.y -= delta * rotationSpeed * 0.35;
@@ -116,6 +141,9 @@ function Planet({
           />
         )}
       </mesh>
+      {proceduralDetail && !texturePath && (
+        <ProceduralSurfaceDetail color="#5E2118" detailRef={detailRef} />
+      )}
 
       <mesh ref={atmosphereRef} scale={1.075}>
         <sphereGeometry args={sphereArgs} />

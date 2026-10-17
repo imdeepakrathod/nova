@@ -10,6 +10,7 @@ function Mars({
   atmosphereControlRef,
   segments = 48,
   reducedMotion = false,
+  proceduralDetail = true,
 }) {
   return (
     <Planet
@@ -26,6 +27,7 @@ function Mars({
       segments={segments}
       normalPath={normalPath}
       reducedMotion={reducedMotion}
+      proceduralDetail={proceduralDetail}
       texturePath={texturePath}
       atmosphereControlRef={atmosphereControlRef}
     />

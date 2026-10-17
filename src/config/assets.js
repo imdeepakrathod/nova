@@ -1,6 +1,8 @@
 const useLocalAssets = false;
 
 export const assets = {
+  // Binary assets are intentionally opt-in until the files documented in public/ASSETS.md exist.
+  source: useLocalAssets ? 'local' : 'procedural-fallback',
   useLocalAssets,
   models: {
     spacecraft: '/models/nova-01.glb',
