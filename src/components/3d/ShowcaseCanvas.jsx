@@ -1,5 +1,5 @@
 import { Canvas, useThree } from '@react-three/fiber';
-import { Suspense, memo, useMemo } from 'react';
+import { Suspense, memo, useEffect, useMemo, useRef, useState } from 'react';
 import WebGLFallback from '../ui/WebGLFallback.jsx';
 
 function ShowcaseLighting() {
@@ -16,11 +16,30 @@ function ShowcaseLighting() {
 }
 
 function ShowcaseCanvas({ children, camera = [0, 0, 6], className = '' }) {
+  const containerRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
   const gl = useMemo(() => ({ alpha: true, antialias: true, powerPreference: 'high-performance' }), []);
 
+  useEffect(() => {
+    const element = containerRef.current;
+    if (!element) return undefined;
+    if (!('IntersectionObserver' in window)) {
+      setIsVisible(true);
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { rootMargin: '320px 0px', threshold: 0.01 },
+    );
+    observer.observe(element);
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className={`absolute inset-0 ${className}`}>
-      <Canvas camera={{ position: camera, fov: 38, near: 0.1, far: 100 }} dpr={[1, 1.2]} fallback={<WebGLFallback />} frameloop="always" gl={gl}>
+    <div ref={containerRef} className={`absolute inset-0 ${className}`}>
+      <Canvas camera={{ position: camera, fov: 38, near: 0.1, far: 100 }} dpr={[1, 1.2]} fallback={<WebGLFallback />} frameloop={isVisible ? 'always' : 'never'} gl={gl}>
         <ShowcaseLighting />
         <Suspense fallback={null}>{children}</Suspense>
       </Canvas>
