@@ -3,6 +3,10 @@ import { Canvas, useThree } from '@react-three/fiber';
 import { Suspense, memo, useEffect, useMemo } from 'react';
 import WebGLFallback from '../ui/WebGLFallback.jsx';
 
+const DESKTOP_CAMERA = Object.freeze({ position: [0, 0, 7.2], fov: 42, near: 0.1, far: 120 });
+const TABLET_CAMERA = Object.freeze({ position: [0, 0, 8.2], fov: 46, near: 0.1, far: 120 });
+const MOBILE_CAMERA = Object.freeze({ position: [0, 0, 9.8], fov: 52, near: 0.1, far: 120 });
+
 function SceneLighting() {
   const { size } = useThree();
   const isMobile = size.width < 640;
@@ -19,18 +23,20 @@ function SceneLighting() {
 
 function ResponsiveCamera({ desktop, tablet, mobile }) {
   const { camera, size } = useThree();
+  const breakpoint = size.width < 640 ? 'mobile' : size.width < 1024 ? 'tablet' : 'desktop';
 
   useEffect(() => {
-    const config =
-      size.width < 640 ? mobile : size.width < 1024 ? tablet : desktop;
+    const config = breakpoint === 'mobile' ? mobile : breakpoint === 'tablet' ? tablet : desktop;
 
-    camera.position.set(...config.position);
+    if (!camera.userData.novaCameraInitialized) {
+      camera.position.set(...config.position);
+      camera.userData.novaCameraInitialized = true;
+    }
     camera.fov = config.fov;
     camera.near = config.near ?? 0.1;
     camera.far = config.far ?? 120;
-    camera.lookAt(0, 0, 0);
     camera.updateProjectionMatrix();
-  }, [camera, desktop, mobile, size.width, tablet]);
+  }, [breakpoint, camera, desktop, mobile, tablet]);
 
   return null;
 }
@@ -39,10 +45,14 @@ function SpaceScene({
   children,
   className = '',
   transparent = true,
-  camera = { position: [0, 0, 7.2], fov: 42, near: 0.1, far: 120 },
-  tabletCamera = { position: [0, 0, 8.2], fov: 46, near: 0.1, far: 120 },
-  mobileCamera = { position: [0, 0, 9.8], fov: 52, near: 0.1, far: 120 },
+  camera = DESKTOP_CAMERA,
+  tabletCamera = TABLET_CAMERA,
+  mobileCamera = MOBILE_CAMERA,
 }) {
+  const eventSource = useMemo(
+    () => (typeof document === 'undefined' ? undefined : document.body),
+    [],
+  );
   const gl = useMemo(
     () => ({
       alpha: transparent,
@@ -62,6 +72,8 @@ function SpaceScene({
         frameloop="always"
         gl={gl}
         fallback={<WebGLFallback />}
+        eventSource={eventSource}
+        eventPrefix="client"
         onCreated={({ gl: renderer }) => {
           renderer.setClearColor('#020308', transparent ? 0 : 1);
         }}

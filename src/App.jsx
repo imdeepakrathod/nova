@@ -20,22 +20,32 @@ import LoadingScreen from './components/ui/LoadingScreen.jsx';
 
 function SceneAnimationController({ ready, sceneRefs }) {
   const { size } = useThree();
+  const responsiveModeRef = useRef(null);
+
+  if (!responsiveModeRef.current) {
+    responsiveModeRef.current = size.width < 640 ? 'mobile' : size.width < 1024 ? 'tablet' : 'desktop';
+  }
 
   useEffect(() => {
     if (!ready) return undefined;
 
     const scene = sceneRefs.current;
-    if (!scene.camera || !scene.spacecraft || !scene.earth || !scene.mars || !scene.stars) return undefined;
+    if (!scene.camera || !scene.cameraTarget || !scene.spacecraft || !scene.earth || !scene.mars || !scene.stars) return undefined;
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const options = { scene, isMobile: size.width < 640, reducedMotion };
+    const options = {
+      scene,
+      isMobile: responsiveModeRef.current === 'mobile',
+      isTablet: responsiveModeRef.current === 'tablet',
+      reducedMotion,
+    };
     const cleanups = [
       createJourneyAnimation(options),
       createTimelineAnimation(options),
     ];
 
     return () => cleanups.forEach((cleanup) => cleanup());
-  }, [ready, sceneRefs, size.width]);
+  }, [ready, sceneRefs]);
 
   return null;
 }

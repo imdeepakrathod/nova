@@ -1,5 +1,6 @@
 import { useThree, useFrame } from '@react-three/fiber';
 import { useEffect, useRef } from 'react';
+import { Vector3 } from 'three';
 import Earth from './Earth.jsx';
 import Mars from './Mars.jsx';
 import Spacecraft from './Spacecraft.jsx';
@@ -16,6 +17,7 @@ function SceneEnvironment({ onReady, sceneRefs }) {
   const spacecraftRef = useRef(null);
   const marsGlowRef = useRef({ opacity: 0.12 });
   const starIntensityRef = useRef({ value: 0.72 });
+  const cameraTargetRef = useRef(new Vector3(0, 0, 0));
   const { camera, size } = useThree();
   const isMobile = size.width < 640;
   const isTablet = size.width >= 640 && size.width < 1024;
@@ -32,6 +34,7 @@ function SceneEnvironment({ onReady, sceneRefs }) {
       spacecraft: spacecraftRef.current,
       marsGlow: marsGlowRef.current,
       starIntensity: starIntensityRef.current,
+      cameraTarget: cameraTargetRef.current,
     });
     onReady?.();
 
@@ -43,6 +46,8 @@ function SceneEnvironment({ onReady, sceneRefs }) {
 
   useFrame(({ pointer }, delta) => {
     if (!rigRef.current) return;
+
+    camera.lookAt(cameraTargetRef.current);
     if (reducedMotion) return;
 
     const targetY = pointer.x * (isMobile ? 0.035 : 0.075);
