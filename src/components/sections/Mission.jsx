@@ -6,17 +6,17 @@ const missionCards = [
   {
     icon: FiCompass,
     title: 'Precision Trajectory',
-    text: 'A 225 million kilometre transfer designed around precise orbital insertion and a controlled Mars approach.',
+    text: 'A 225 million kilometre transfer with a narrow arrival corridor and no room for wasted velocity.',
   },
   {
     icon: FiCpu,
     title: 'Autonomous Systems',
-    text: 'Autonomous guidance, navigation, and fault response keep the crew focused across seven months of transit.',
+    text: 'Guidance and fault response run continuously while the crew prepares for orbital insertion.',
   },
   {
     icon: FiShield,
     title: 'Crew-Safe Design',
-    text: 'Redundant life-support, shielding, and mission systems protect the crew from launch through landing.',
+    text: 'Redundant life support and shielding protect the crew from launch burn to landing sequence.',
   },
 ];
 

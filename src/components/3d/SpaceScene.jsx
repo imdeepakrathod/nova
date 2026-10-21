@@ -1,4 +1,3 @@
-import { Loader } from '@react-three/drei';
 import { Canvas, useThree } from '@react-three/fiber';
 import { Suspense, memo, useEffect, useMemo } from 'react';
 import WebGLFallback from '../ui/WebGLFallback.jsx';
@@ -87,16 +86,6 @@ function SpaceScene({
         <SceneLighting />
         <Suspense fallback={null}>{children}</Suspense>
       </Canvas>
-      <Loader
-        containerStyles={{ background: 'rgba(2, 3, 8, 0.72)' }}
-        dataStyles={{
-          color: '#FFFFFF',
-          fontFamily: 'ui-sans-serif, system-ui, sans-serif',
-          letterSpacing: '0.16em',
-        }}
-        innerStyles={{ backgroundColor: '#FFFFFF' }}
-        barStyles={{ backgroundColor: '#FF4D00' }}
-      />
     </div>
   );
 }

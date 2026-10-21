@@ -18,7 +18,7 @@ function Mars() {
         <div>
           <SectionHeading
             eyebrow="Mars / Sol 01"
-            title="The destination is the interface."
+            title="Mars is the first landing, not the final destination."
             description="After seven months in transit, NOVA-01 enters a thin atmosphere, maps the landing corridor, and hands the crew a new horizon. The mission is not a flyby. It is the beginning of a surface presence."
           />
           <dl className="mars-reveal mt-10 grid grid-cols-2 gap-x-8 gap-y-7 border-t border-white/10 pt-7 opacity-70 sm:grid-cols-4 lg:grid-cols-2">

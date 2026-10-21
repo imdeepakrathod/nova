@@ -60,8 +60,8 @@ function Crew() {
     <section id="crew" className="section-shell">
       <SectionHeading
         eyebrow="Crew"
-        title="Three people. One long horizon."
-        description="The NOVA-01 crew carries the mission through the moments no autonomous system can own: judgment, adaptation, and the decision to continue."
+        title="The crew carries the decisions."
+        description="Three specialists share command, vehicle health, and the first field operations on Mars."
       />
 
       <div className="mt-14 grid gap-5 md:grid-cols-3">

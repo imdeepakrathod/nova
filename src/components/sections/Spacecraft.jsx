@@ -29,7 +29,7 @@ function Spacecraft() {
         <div className="deep-space-ui translate-y-4 opacity-60">
           <SectionHeading
             eyebrow="Spacecraft"
-            title="A vessel interface waiting for depth."
+            title="A vehicle built for the long transfer."
             description="NOVA-01 combines a reusable crew module, high-efficiency solar electric propulsion, and a shielded payload bay built for the long route to Mars."
           />
         </div>
@@ -38,7 +38,7 @@ function Spacecraft() {
           <div className="relative min-h-[20rem] overflow-hidden border border-white/10 bg-[radial-gradient(circle_at_60%_45%,rgba(255,77,0,0.18),transparent_24%),rgba(255,255,255,0.025)] sm:min-h-[25rem]">
             <SpacecraftShowcase />
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,transparent_40%,rgba(255,255,255,0.06)_40.2%,transparent_40.5%)]" />
-            <div className="relative flex w-full items-end justify-between border-t border-white/15 pt-4">
+            <div className="absolute inset-x-0 bottom-0 z-10 flex items-end justify-between border-t border-white/15 bg-nova-black/70 p-5 backdrop-blur-md sm:p-8">
               <div>
                 <p className="text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-nova-accent">NOVA-01 / 3D vehicle</p>
                 <p className="mt-2 text-sm text-nova-muted">Crewed Mars transfer configuration</p>

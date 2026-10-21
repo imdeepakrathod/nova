@@ -31,9 +31,8 @@ function Hero() {
             <span className="reveal-word inline-block">Earth.</span>
           </h1>
           <p data-reveal-copy data-reveal-hero-copy className="mt-7 max-w-2xl text-base leading-8 text-nova-muted sm:text-lg">
-            NOVA-01 is a next-generation mission concept engineered for the
-            red planet: precise orbital insertion, autonomous descent systems,
-            and a human-centered command experience.
+            NOVA-01 carries a crew across 225 million kilometres of deep space,
+            from Earth departure to the first controlled approach over Mars.
           </p>
 
           <div data-reveal-hero-cta className="mt-10 flex flex-col gap-4 sm:flex-row">

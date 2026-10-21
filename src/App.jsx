@@ -65,7 +65,7 @@ function App() {
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-nova-black text-nova-white">
-      {isLoading && <LoadingScreen onComplete={completeLoading} />}
+      {isLoading && <LoadingScreen onComplete={completeLoading} ready={sceneReady} />}
       <CustomCursor />
       <div className="pointer-events-none fixed inset-0 z-0 opacity-90">
         <SpaceScene>

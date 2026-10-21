@@ -235,14 +235,21 @@ body:has(.cursor-ring) .cursor-ring {
 
 .loading-screen__progress span {
   display: block;
-  width: 45%;
+  width: 0;
   height: 100%;
   background: #ff4d00;
-  animation: loading-progress 1s ease-in-out forwards;
+  transition: width 300ms ease;
+}
+
+.loading-screen__percent {
+  margin-top: 0.6rem;
+  color: #6b7280;
+  font-size: 0.6rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.16em;
 }
 
 @keyframes loading-spin { to { transform: rotate(360deg); } }
-@keyframes loading-progress { to { width: 100%; } }
 
 @media (hover: none), (pointer: coarse) {
   .cursor-dot,
