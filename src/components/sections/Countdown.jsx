@@ -33,6 +33,7 @@ function useCountdown(targetDate) {
 
 function Countdown({ targetDate = launchDate }) {
   const time = useCountdown(targetDate);
+  const isValidTarget = Number.isFinite(targetDate?.getTime?.());
   const safeTime = time ?? { days: 0, hours: 0, minutes: 0, seconds: 0 };
   const countdownBlocks = [
     [safeTime.days, 'Days'],
@@ -50,7 +51,13 @@ function Countdown({ targetDate = launchDate }) {
             title="Launch window initialized."
             description={Number.isFinite(targetDate?.getTime?.()) ? 'Launch window: 14 October 2028, 16:30 UTC. Mission control is counting toward the first departure burn.' : 'Launch window unavailable. Mission control is standing by for a valid target date.'}
           />
-          <div className="grid grid-cols-2 gap-px overflow-hidden border border-white/10 bg-white/10 md:grid-cols-4" aria-live="polite" aria-label="Time remaining until NOVA-01 launch">
+          <div
+            className="grid grid-cols-2 gap-px overflow-hidden border border-white/10 bg-white/10 md:grid-cols-4"
+            aria-describedby="countdown-status"
+            aria-label="Time remaining until NOVA-01 launch"
+            aria-live="off"
+            aria-invalid={!isValidTarget}
+          >
             {countdownBlocks.map(([value, label]) => (
               <div key={label} className="bg-nova-black/85 p-6 text-center sm:p-8">
                 <p className="font-display text-4xl font-semibold tabular-nums text-nova-white sm:text-5xl">
@@ -62,6 +69,11 @@ function Countdown({ targetDate = launchDate }) {
               </div>
             ))}
           </div>
+          <p id="countdown-status" className="sr-only" aria-live="polite">
+            {isValidTarget
+              ? 'Launch countdown active. Values update visually every second.'
+              : 'Launch countdown unavailable because the target date is invalid.'}
+          </p>
         </div>
 
         <div className="mt-12 flex flex-col items-start justify-between gap-6 border-t border-white/10 pt-8 md:flex-row md:items-center">

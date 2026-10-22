@@ -1,11 +1,13 @@
 import { useEffect, useRef } from 'react';
+import usePrefersReducedMotion from './usePrefersReducedMotion.js';
 
 export default function useTilt({ strength = 6, reducedMotion = false } = {}) {
   const ref = useRef(null);
+  const systemReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
     const element = ref.current;
-    if (!element || reducedMotion || !window.matchMedia('(hover: hover)').matches) return undefined;
+    if (!element || reducedMotion || systemReducedMotion || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return undefined;
 
     const reset = () => {
       element.style.setProperty('--tilt-x', '0deg');
@@ -28,7 +30,7 @@ export default function useTilt({ strength = 6, reducedMotion = false } = {}) {
       element.removeEventListener('pointermove', move);
       element.removeEventListener('pointerleave', reset);
     };
-  }, [reducedMotion, strength]);
+  }, [reducedMotion, strength, systemReducedMotion]);
 
   return ref;
 }
