@@ -1,14 +1,15 @@
 import { Canvas, useThree } from '@react-three/fiber';
-import { Suspense, memo, useEffect, useMemo } from 'react';
+import { Suspense, memo, useMemo } from 'react';
 import WebGLFallback from '../ui/WebGLFallback.jsx';
+import ResponsiveCamera from './ResponsiveCamera.jsx';
 
-const DESKTOP_CAMERA = Object.freeze({ position: [0, 0, 7.2], fov: 42, near: 0.1, far: 120 });
-const TABLET_CAMERA = Object.freeze({ position: [0, 0, 8.2], fov: 46, near: 0.1, far: 120 });
-const MOBILE_CAMERA = Object.freeze({ position: [0, 0, 9.8], fov: 52, near: 0.1, far: 120 });
+const DESKTOP_CAMERA = Object.freeze({ position: [0, 0, 7.2], target: [0, 0, 0], fov: 42, near: 0.1, far: 120 });
+const TABLET_CAMERA = Object.freeze({ position: [0, 0, 8.2], target: [0, 0, 0], fov: 46, near: 0.1, far: 120 });
+const MOBILE_CAMERA = Object.freeze({ position: [0, 0, 9.8], target: [0, 0, 0], fov: 52, near: 0.1, far: 120 });
 
 function SceneLighting() {
   const { size } = useThree();
-  const isMobile = size.width < 640;
+  const isMobile = size.width < 768;
 
   return (
     <>
@@ -18,26 +19,6 @@ function SceneLighting() {
       {!isMobile && <pointLight color="#FF4D00" distance={9} decay={2} intensity={1.1} position={[2, -0.7, 1.5]} />}
     </>
   );
-}
-
-function ResponsiveCamera({ desktop, tablet, mobile }) {
-  const { camera, size } = useThree();
-  const breakpoint = size.width < 640 ? 'mobile' : size.width < 1024 ? 'tablet' : 'desktop';
-
-  useEffect(() => {
-    const config = breakpoint === 'mobile' ? mobile : breakpoint === 'tablet' ? tablet : desktop;
-
-    if (!camera.userData.novaCameraInitialized) {
-      camera.position.set(...config.position);
-      camera.userData.novaCameraInitialized = true;
-    }
-    camera.fov = config.fov;
-    camera.near = config.near ?? 0.1;
-    camera.far = config.far ?? 120;
-    camera.updateProjectionMatrix();
-  }, [breakpoint, camera, desktop, mobile, tablet]);
-
-  return null;
 }
 
 function SpaceScene({

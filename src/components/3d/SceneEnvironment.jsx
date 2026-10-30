@@ -17,12 +17,13 @@ function SceneEnvironment({ onReady, sceneRefs }) {
   const spacecraftRef = useRef(null);
   const marsGlowRef = useRef({ opacity: 0.12 });
   const starIntensityRef = useRef({ value: 0.72 });
-  const cameraTargetRef = useRef(new Vector3(0, 0, 0));
   const { camera, size } = useThree();
-  const isMobile = size.width < 640;
-  const isTablet = size.width >= 640 && size.width < 1024;
+  const cameraTargetRef = useRef(camera.userData.novaCameraTarget ?? new Vector3(0, 0, 0));
+  const isMobile = size.width < 768;
+  const isTablet = size.width >= 768 && size.width < 1024;
   const reducedMotion = usePrefersReducedMotion();
   const lowComplexity = isMobile || reducedMotion;
+  camera.userData.novaCameraTarget = cameraTargetRef.current;
 
   useEffect(() => {
     Object.assign(sceneRefs.current, {

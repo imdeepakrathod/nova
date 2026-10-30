@@ -17,14 +17,11 @@ import useSmoothScroll from './hooks/useSmoothScroll.js';
 import { createPagePolish } from './animations/pagePolish.js';
 import CustomCursor from './components/ui/CustomCursor.jsx';
 import LoadingScreen from './components/ui/LoadingScreen.jsx';
+import { getCameraBreakpoint } from './components/3d/ResponsiveCamera.jsx';
 
 function SceneAnimationController({ ready, sceneRefs }) {
   const { size } = useThree();
-  const responsiveModeRef = useRef(null);
-
-  if (!responsiveModeRef.current) {
-    responsiveModeRef.current = size.width < 640 ? 'mobile' : size.width < 1024 ? 'tablet' : 'desktop';
-  }
+  const responsiveMode = getCameraBreakpoint(size.width);
 
   useEffect(() => {
     if (!ready) return undefined;
@@ -35,8 +32,8 @@ function SceneAnimationController({ ready, sceneRefs }) {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const options = {
       scene,
-      isMobile: responsiveModeRef.current === 'mobile',
-      isTablet: responsiveModeRef.current === 'tablet',
+      isMobile: responsiveMode === 'mobile',
+      isTablet: responsiveMode === 'tablet',
       reducedMotion,
     };
     const cleanups = [
@@ -45,7 +42,7 @@ function SceneAnimationController({ ready, sceneRefs }) {
     ];
 
     return () => cleanups.forEach((cleanup) => cleanup());
-  }, [ready, sceneRefs]);
+  }, [ready, responsiveMode, sceneRefs]);
 
   return null;
 }
