@@ -1,11 +1,14 @@
 import SectionHeading from '../ui/SectionHeading.jsx';
 import MarsShowcase from '../3d/MarsShowcase.jsx';
+import usePrefersReducedMotion from '../../hooks/usePrefersReducedMotion.js';
 
 function Mars() {
+  const reducedMotion = usePrefersReducedMotion();
+
   return (
     <section id="mars" aria-labelledby="mars-title" className="border-y border-white/10">
       <div className="section-shell grid gap-14 lg:grid-cols-[1fr_0.9fr] lg:items-center">
-        <div className="mars-reveal relative min-h-[22rem] overflow-hidden border border-white/10 bg-[#070403]/60 opacity-70 sm:min-h-[30rem]">
+        <div className={`mars-reveal relative min-h-[22rem] overflow-hidden border border-white/10 bg-[#070403]/60 ${reducedMotion ? '' : 'opacity-70'} sm:min-h-[30rem]`}>
           <MarsShowcase />
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_35%_30%,rgba(255,255,255,0.16),transparent_18%),radial-gradient(circle_at_62%_58%,rgba(2,3,8,0.38),transparent_28%)]" />
           <div className="absolute inset-x-0 bottom-0 border-t border-white/10 bg-nova-black/70 p-5 backdrop-blur-md">
@@ -21,7 +24,7 @@ function Mars() {
             title="Mars is the first landing, not the final destination."
             description="After seven months in transit, NOVA-01 enters a thin atmosphere, maps the landing corridor, and hands the crew a new horizon. The mission is not a flyby. It is the beginning of a surface presence."
           />
-          <dl className="mars-reveal mt-10 grid grid-cols-2 gap-x-8 gap-y-7 border-t border-white/10 pt-7 opacity-70 sm:grid-cols-4 lg:grid-cols-2">
+          <dl className={`mars-reveal mt-10 grid grid-cols-2 gap-x-8 gap-y-7 border-t border-white/10 pt-7 ${reducedMotion ? '' : 'opacity-70'} sm:grid-cols-4 lg:grid-cols-2`}>
             {[
               ['Temperature', '-63 C avg'],
               ['Distance', '225M km'],

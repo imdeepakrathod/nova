@@ -2,11 +2,11 @@ import { useEffect } from 'react';
 import Lenis from 'lenis';
 import { configureGsap, gsap, ScrollTrigger } from '../animations/gsapConfig.js';
 
-export default function useSmoothScroll() {
+export default function useSmoothScroll(reducedMotion) {
   useEffect(() => {
     configureGsap();
 
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+    if (reducedMotion) return undefined;
 
     const lenis = new Lenis({
       autoRaf: false,
@@ -28,5 +28,5 @@ export default function useSmoothScroll() {
       lenis.off('scroll', onScroll);
       lenis.destroy();
     };
-  }, []);
+  }, [reducedMotion]);
 }

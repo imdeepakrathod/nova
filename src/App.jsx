@@ -18,8 +18,9 @@ import { createPagePolish } from './animations/pagePolish.js';
 import CustomCursor from './components/ui/CustomCursor.jsx';
 import LoadingScreen from './components/ui/LoadingScreen.jsx';
 import { getCameraBreakpoint } from './components/3d/ResponsiveCamera.jsx';
+import usePrefersReducedMotion from './hooks/usePrefersReducedMotion.js';
 
-function SceneAnimationController({ ready, sceneRefs }) {
+function SceneAnimationController({ ready, sceneRefs, reducedMotion }) {
   const { size } = useThree();
   const responsiveMode = getCameraBreakpoint(size.width);
 
@@ -29,7 +30,6 @@ function SceneAnimationController({ ready, sceneRefs }) {
     const scene = sceneRefs.current;
     if (!scene.camera || !scene.cameraTarget || !scene.spacecraft || !scene.earth || !scene.mars || !scene.stars) return undefined;
 
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const options = {
       scene,
       isMobile: responsiveMode === 'mobile',
@@ -42,7 +42,7 @@ function SceneAnimationController({ ready, sceneRefs }) {
     ];
 
     return () => cleanups.forEach((cleanup) => cleanup());
-  }, [ready, responsiveMode, sceneRefs]);
+  }, [ready, responsiveMode, reducedMotion, sceneRefs]);
 
   return null;
 }
@@ -50,15 +50,15 @@ function SceneAnimationController({ ready, sceneRefs }) {
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [sceneReady, setSceneReady] = useState(false);
-  useSmoothScroll();
+  const reducedMotion = usePrefersReducedMotion();
+  useSmoothScroll(reducedMotion);
   const sceneRefs = useRef({});
   const completeLoading = useCallback(() => setIsLoading(false), []);
   const handleSceneReady = useCallback((ready = true) => setSceneReady(ready), []);
 
   useEffect(() => {
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     return createPagePolish({ reducedMotion });
-  }, []);
+  }, [reducedMotion]);
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-nova-black text-nova-white">
@@ -67,7 +67,7 @@ function App() {
       <div className="pointer-events-none fixed inset-0 z-0 opacity-90">
         <SpaceScene>
           <SceneEnvironment onReady={handleSceneReady} sceneRefs={sceneRefs} />
-          <SceneAnimationController ready={sceneReady} sceneRefs={sceneRefs} />
+          <SceneAnimationController ready={sceneReady} sceneRefs={sceneRefs} reducedMotion={reducedMotion} />
         </SpaceScene>
       </div>
       <Navbar />

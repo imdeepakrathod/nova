@@ -1,6 +1,7 @@
 import { FiBox, FiCrosshair, FiMaximize, FiZap } from 'react-icons/fi';
 import SectionHeading from '../ui/SectionHeading.jsx';
 import useTilt from '../../hooks/useTilt.js';
+import usePrefersReducedMotion from '../../hooks/usePrefersReducedMotion.js';
 import SpacecraftShowcase from '../3d/SpacecraftShowcase.jsx';
 
 const specs = [
@@ -23,10 +24,12 @@ function SpecificationCard({ label, value }) {
 }
 
 function Spacecraft() {
+  const reducedMotion = usePrefersReducedMotion();
+
   return (
     <section id="spacecraft" className="border-y border-white/10 bg-white/[0.018]">
       <div className="section-shell grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
-        <div className="deep-space-ui translate-y-4 opacity-60">
+        <div className={`deep-space-ui ${reducedMotion ? '' : 'translate-y-4 opacity-60'}`}>
           <SectionHeading
             eyebrow="Spacecraft"
             title="A vehicle built for the long transfer."

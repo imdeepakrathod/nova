@@ -14,7 +14,7 @@ export function getCameraBreakpoint(width) {
   return 'desktop';
 }
 
-function ResponsiveCamera({ desktop, tablet, mobile, targetRef }) {
+function ResponsiveCamera({ desktop, tablet, mobile, targetRef, reducedMotion = false }) {
   const { camera, size } = useThree();
   const breakpoint = getCameraBreakpoint(size.width);
   const internalTargetRef = useRef(camera.userData.novaCameraTarget ?? new Vector3());
@@ -32,7 +32,7 @@ function ResponsiveCamera({ desktop, tablet, mobile, targetRef }) {
     camera.fov = config.fov;
     camera.updateProjectionMatrix();
 
-    if (isInitialUpdate) {
+    if (isInitialUpdate || reducedMotion) {
       camera.position.set(...config.position);
       resolvedTargetRef.current.set(...target);
     } else {
@@ -56,7 +56,7 @@ function ResponsiveCamera({ desktop, tablet, mobile, targetRef }) {
     }
 
     previousBreakpointRef.current = breakpoint;
-  }, [breakpoint, camera, desktop, mobile, tablet, resolvedTargetRef]);
+  }, [breakpoint, camera, desktop, mobile, reducedMotion, tablet, resolvedTargetRef]);
 
   useEffect(() => () => {
     gsap.killTweensOf(camera.position);

@@ -1,11 +1,13 @@
 import { useEffect, useRef } from 'react';
+import usePrefersReducedMotion from '../../hooks/usePrefersReducedMotion.js';
 
 function CustomCursor() {
   const dotRef = useRef(null);
   const ringRef = useRef(null);
+  const reducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
-    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return undefined;
+    if (reducedMotion || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return undefined;
 
     let frameId;
     let x = -100;
@@ -44,7 +46,9 @@ function CustomCursor() {
         element.removeEventListener('pointerleave', leaveInteractive);
       });
     };
-  }, []);
+  }, [reducedMotion]);
+
+  if (reducedMotion) return null;
 
   return (
     <>

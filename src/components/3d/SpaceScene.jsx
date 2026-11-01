@@ -2,6 +2,7 @@ import { Canvas, useThree } from '@react-three/fiber';
 import { Suspense, memo, useMemo } from 'react';
 import WebGLFallback from '../ui/WebGLFallback.jsx';
 import ResponsiveCamera from './ResponsiveCamera.jsx';
+import usePrefersReducedMotion from '../../hooks/usePrefersReducedMotion.js';
 
 const DESKTOP_CAMERA = Object.freeze({ position: [0, 0, 7.2], target: [0, 0, 0], fov: 42, near: 0.1, far: 120 });
 const TABLET_CAMERA = Object.freeze({ position: [0, 0, 8.2], target: [0, 0, 0], fov: 46, near: 0.1, far: 120 });
@@ -29,6 +30,7 @@ function SpaceScene({
   tabletCamera = TABLET_CAMERA,
   mobileCamera = MOBILE_CAMERA,
 }) {
+  const reducedMotion = usePrefersReducedMotion();
   const eventSource = useMemo(
     () => (typeof document === 'undefined' ? undefined : document.body),
     [],
@@ -62,6 +64,7 @@ function SpaceScene({
         <ResponsiveCamera
           desktop={camera}
           mobile={mobileCamera}
+          reducedMotion={reducedMotion}
           tablet={tabletCamera}
         />
         <SceneLighting />

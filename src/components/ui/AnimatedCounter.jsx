@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import usePrefersReducedMotion from '../../hooks/usePrefersReducedMotion.js';
 
 function formatValue(value, decimals, padLength) {
   if (decimals > 0) return value.toFixed(decimals);
@@ -10,13 +11,13 @@ function formatValue(value, decimals, padLength) {
 
 function AnimatedCounter({ value, suffix = '', decimals = 0, padLength = 1, duration = 1400 }) {
   const valueRef = useRef(null);
+  const reducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
     const target = Number(value);
     const element = valueRef.current;
     if (!element || !Number.isFinite(target)) return undefined;
 
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let frameId;
     let hasStarted = false;
 
@@ -61,7 +62,7 @@ function AnimatedCounter({ value, suffix = '', decimals = 0, padLength = 1, dura
       window.removeEventListener('scroll', onScroll);
       if (frameId) cancelAnimationFrame(frameId);
     };
-  }, [decimals, duration, padLength, suffix, value]);
+  }, [decimals, duration, padLength, reducedMotion, suffix, value]);
 
   return (
     <span ref={valueRef}>{formatValue(0, decimals, padLength)}{suffix}</span>
