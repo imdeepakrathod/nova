@@ -17,7 +17,12 @@ export default function useActiveSection(sectionIds) {
         const bounds = section.getBoundingClientRect();
         return bounds.top <= marker && bounds.bottom > marker;
       });
-      const nextSection = current?.id ?? (window.scrollY < window.innerHeight * 0.5 ? 'top' : activeSectionRef.current);
+      const passedSection = [...sections]
+        .reverse()
+        .find((section) => section.getBoundingClientRect().top <= marker);
+      const nextSection = current?.id
+        ?? passedSection?.id
+        ?? (window.scrollY < window.innerHeight * 0.5 ? 'top' : activeSectionRef.current);
       if (nextSection === activeSectionRef.current) return;
       activeSectionRef.current = nextSection;
       setActiveSection(nextSection);

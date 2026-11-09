@@ -1,3 +1,4 @@
+// Keep disabled until the corresponding files are added to public/.
 const useLocalAssets = false;
 
 export const assets = {
@@ -12,10 +13,12 @@ export const assets = {
     earth: {
       surface: '/textures/earth-surface.jpg',
       normal: '/textures/earth-normal.jpg',
+      clouds: '/textures/earth-clouds.png',
     },
     mars: {
       surface: '/textures/mars-surface.jpg',
       normal: '/textures/mars-normal.jpg',
+      clouds: null,
     },
   },
   images: {

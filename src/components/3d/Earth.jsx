@@ -9,6 +9,7 @@ function Earth({
   rotation = [0.12, 0, -0.18],
   segments = 48,
   reducedMotion = false,
+  cloudPath,
 }) {
   return (
     <Planet
@@ -24,6 +25,7 @@ function Earth({
       scale={scale}
       segments={segments}
       normalPath={normalPath}
+      cloudPath={cloudPath}
       reducedMotion={reducedMotion}
       texturePath={texturePath}
     />

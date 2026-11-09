@@ -1,4 +1,4 @@
-function SectionHeading({ eyebrow, title, description, align = 'left' }) {
+function SectionHeading({ eyebrow, title, description, align = 'left', titleId }) {
   const isCenter = align === 'center';
   const titleWords = title.split(' ');
 
@@ -7,7 +7,7 @@ function SectionHeading({ eyebrow, title, description, align = 'left' }) {
       <p className="mb-4 text-xs font-semibold uppercase tracking-[0.28em] text-nova-accent">
         {eyebrow}
       </p>
-      <h2 data-reveal-heading className="font-display text-3xl font-semibold uppercase leading-tight text-nova-white sm:text-4xl lg:text-5xl">
+      <h2 id={titleId} data-reveal-heading className="font-display text-3xl font-semibold uppercase leading-tight text-nova-white sm:text-4xl lg:text-5xl">
         {titleWords.map((word, index) => (
           <span className="reveal-word inline-block" key={`${word}-${index}`}>
             {word}{index < titleWords.length - 1 ? '\u00a0' : ''}

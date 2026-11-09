@@ -82,6 +82,7 @@ function SceneEnvironment({ onReady, sceneRefs }) {
             scale={isMobile ? 1.25 : isTablet ? 1.45 : 1.78}
             segments={isMobile ? 32 : 48}
             normalPath={resolveAsset(assets.textures.earth.normal)}
+            cloudPath={resolveAsset(assets.textures.earth.clouds)}
             reducedMotion={reducedMotion}
             texturePath={resolveAsset(assets.textures.earth.surface)}
           />

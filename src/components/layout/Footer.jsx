@@ -1,4 +1,4 @@
-import { FiArrowUpRight, FiInstagram, FiRadio, FiSend, FiYoutube } from 'react-icons/fi';
+import { FiArrowUpRight, FiRadio, FiSend } from 'react-icons/fi';
 
 const missionLinks = [
   ['Mission', '#mission'],
@@ -41,16 +41,15 @@ function Footer() {
             <FiSend aria-hidden="true" className="text-nova-accent" />
             NOVA-01 Mission
           </span>
-          <div className="mt-2 flex gap-4" aria-label="Social links">
-            <a href="https://www.instagram.com" aria-label="NOVA on Instagram" className="transition hover:text-nova-white"><FiInstagram aria-hidden="true" /></a>
-            <a href="https://www.youtube.com" aria-label="NOVA on YouTube" className="transition hover:text-nova-white"><FiYoutube aria-hidden="true" /></a>
-            <a href="#top" aria-label="Return to top" className="transition hover:text-nova-white"><FiArrowUpRight aria-hidden="true" /></a>
+          <div className="mt-2 flex items-center gap-2 text-nova-muted">
+            <FiArrowUpRight aria-hidden="true" />
+            <a href="#top" className="transition hover:text-nova-white focus:outline-none focus:ring-2 focus:ring-nova-accent">Return to top</a>
           </div>
           </div>
         </div>
         <div className="flex flex-col gap-4 border-t border-white/10 pt-6 text-xs text-nova-muted sm:flex-row sm:items-center sm:justify-between md:col-span-2">
           <span>© 2026 NOVA Space Systems. Fictional concept.</span>
-          <div className="flex gap-5"><a href="#footer" className="hover:text-nova-white">Privacy</a><a href="#footer" className="hover:text-nova-white">Terms</a></div>
+          <div className="flex gap-5"><span>Privacy</span><span>Terms</span></div>
         </div>
       </div>
     </footer>

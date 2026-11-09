@@ -34,13 +34,13 @@ function useCountdown(targetDate) {
 function Countdown({ targetDate = launchDate }) {
   const time = useCountdown(targetDate);
   const isValidTarget = Number.isFinite(targetDate?.getTime?.());
-  const safeTime = time ?? { days: 0, hours: 0, minutes: 0, seconds: 0 };
-  const countdownBlocks = [
+  const safeTime = time;
+  const countdownBlocks = safeTime ? [
     [safeTime.days, 'Days'],
     [safeTime.hours, 'Hours'],
     [safeTime.minutes, 'Minutes'],
     [safeTime.seconds, 'Seconds'],
-  ];
+  ] : [];
 
   return (
     <section id="countdown" className="border-t border-white/10 bg-white/[0.018]">
@@ -51,24 +51,29 @@ function Countdown({ targetDate = launchDate }) {
             title="Launch window initialized."
             description={Number.isFinite(targetDate?.getTime?.()) ? 'Launch window: 14 October 2028, 16:30 UTC. Mission control is counting toward the first departure burn.' : 'Launch window unavailable. Mission control is standing by for a valid target date.'}
           />
-          <div
-            className="grid grid-cols-2 gap-px overflow-hidden border border-white/10 bg-white/10 md:grid-cols-4"
-            aria-describedby="countdown-status"
-            aria-label="Time remaining until NOVA-01 launch"
-            aria-live="off"
-            aria-invalid={!isValidTarget}
-          >
-            {countdownBlocks.map(([value, label]) => (
-              <div key={label} className="bg-nova-black/85 p-6 text-center sm:p-8">
-                <p className="font-display text-4xl font-semibold tabular-nums text-nova-white sm:text-5xl">
-                  {String(value).padStart(2, '0')}
-                </p>
-                <p className="mt-3 text-[0.65rem] font-semibold uppercase tracking-[0.24em] text-nova-muted">
-                  {label}
-                </p>
-              </div>
-            ))}
-          </div>
+          {safeTime ? (
+            <div
+              className="grid grid-cols-2 gap-px overflow-hidden border border-white/10 bg-white/10 md:grid-cols-4"
+              aria-describedby="countdown-status"
+              aria-label="Time remaining until NOVA-01 launch"
+              aria-live="off"
+            >
+              {countdownBlocks.map(([value, label]) => (
+                <div key={label} className="bg-nova-black/85 p-6 text-center sm:p-8">
+                  <p className="font-display text-4xl font-semibold tabular-nums text-nova-white sm:text-5xl">
+                    {String(value).padStart(2, '0')}
+                  </p>
+                  <p className="mt-3 text-[0.65rem] font-semibold uppercase tracking-[0.24em] text-nova-muted">
+                    {label}
+                  </p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="border border-white/10 bg-nova-black/85 p-8 text-center text-sm text-nova-muted" role="status">
+              Countdown unavailable.
+            </p>
+          )}
           <p id="countdown-status" className="sr-only" aria-live="polite">
             {isValidTarget
               ? 'Launch countdown active. Values update visually every second.'

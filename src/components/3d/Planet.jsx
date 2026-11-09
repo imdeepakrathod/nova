@@ -1,6 +1,12 @@
 import { useFrame, useLoader } from '@react-three/fiber';
 import { Component, memo, useEffect, useMemo, useRef } from 'react';
-import { AdditiveBlending, BackSide, SRGBColorSpace, TextureLoader } from 'three';
+import {
+  AdditiveBlending,
+  BackSide,
+  NoColorSpace,
+  SRGBColorSpace,
+  TextureLoader,
+} from 'three';
 
 class PlanetTextureBoundary extends Component {
   constructor(props) {
@@ -18,10 +24,14 @@ class PlanetTextureBoundary extends Component {
 }
 
 function PlanetSurface({ texturePath, normalPath, color, roughness, metalness }) {
-  const [texture, normalTexture] = useLoader(TextureLoader, [texturePath, normalPath || texturePath]);
+  const textures = useLoader(
+    TextureLoader,
+    normalPath ? [texturePath, normalPath] : [texturePath],
+  );
+  const [texture, normalTexture] = textures;
 
   texture.colorSpace = SRGBColorSpace;
-  if (normalTexture && normalPath) normalTexture.colorSpace = SRGBColorSpace;
+  if (normalTexture && normalPath) normalTexture.colorSpace = NoColorSpace;
 
   return (
     <meshStandardMaterial
@@ -31,6 +41,25 @@ function PlanetSurface({ texturePath, normalPath, color, roughness, metalness })
       normalMap={normalPath ? normalTexture : null}
       roughness={roughness}
     />
+  );
+}
+
+function CloudLayer({ texturePath, sphereArgs }) {
+  const texture = useLoader(TextureLoader, texturePath);
+  texture.colorSpace = SRGBColorSpace;
+
+  return (
+    <mesh scale={1.018}>
+      <sphereGeometry args={sphereArgs} />
+      <meshStandardMaterial
+        alphaTest={0.05}
+        depthWrite={false}
+        map={texture}
+        opacity={0.42}
+        transparent
+        color="#FFFFFF"
+      />
+    </mesh>
   );
 }
 
@@ -67,6 +96,7 @@ function Planet({
   atmosphereOpacity = 0.18,
   texturePath,
   normalPath,
+  cloudPath,
   rotationSpeed = 0.05,
   roughness = 0.78,
   metalness = 0,
@@ -78,6 +108,7 @@ function Planet({
   const planetRef = useRef(null);
   const atmosphereRef = useRef(null);
   const glowRef = useRef(null);
+  const cloudRef = useRef(null);
   const detailRef = useRef(null);
   const sphereArgs = useMemo(() => [1, segments, segments], [segments]);
 
@@ -93,6 +124,7 @@ function Planet({
 
     planetRef.current.rotation.y += delta * rotationSpeed;
     if (detailRef.current) detailRef.current.rotation.y += delta * rotationSpeed;
+    if (cloudRef.current) cloudRef.current.rotation.y += delta * rotationSpeed * 0.72;
 
     if (atmosphereRef.current) {
       atmosphereRef.current.rotation.y -= delta * rotationSpeed * 0.35;
@@ -143,6 +175,13 @@ function Planet({
       </mesh>
       {proceduralDetail && !texturePath && (
         <ProceduralSurfaceDetail color="#5E2118" detailRef={detailRef} />
+      )}
+      {cloudPath && (
+        <PlanetTextureBoundary fallback={null}>
+          <group ref={cloudRef}>
+            <CloudLayer sphereArgs={sphereArgs} texturePath={cloudPath} />
+          </group>
+        </PlanetTextureBoundary>
       )}
 
       <mesh ref={atmosphereRef} scale={1.075}>
