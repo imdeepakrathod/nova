@@ -1,5 +1,5 @@
 import { Canvas, useThree } from '@react-three/fiber';
-import { Suspense, memo, useMemo } from 'react';
+import { Suspense, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import WebGLFallback from '../ui/WebGLFallback.jsx';
 import ResponsiveCamera from './ResponsiveCamera.jsx';
 import usePrefersReducedMotion from '../../hooks/usePrefersReducedMotion.js';
@@ -31,6 +31,8 @@ function SpaceScene({
   mobileCamera = MOBILE_CAMERA,
 }) {
   const reducedMotion = usePrefersReducedMotion();
+  const [contextLost, setContextLost] = useState(false);
+  const rendererRef = useRef(null);
   const eventSource = useMemo(
     () => (typeof document === 'undefined' ? undefined : document.body),
     [],
@@ -45,6 +47,28 @@ function SpaceScene({
     }),
     [transparent],
   );
+  const cleanupRenderer = useCallback(() => {
+    const activeRenderer = rendererRef.current;
+    if (!activeRenderer) return;
+    activeRenderer.canvas.removeEventListener('webglcontextlost', activeRenderer.onContextLost);
+    activeRenderer.canvas.removeEventListener('webglcontextrestored', activeRenderer.onContextRestored);
+    rendererRef.current = null;
+  }, []);
+  const handleCreated = useCallback(({ gl: renderer }) => {
+    const canvas = renderer.domElement;
+    const onContextLost = (event) => {
+      event.preventDefault();
+      setContextLost(true);
+    };
+    const onContextRestored = () => setContextLost(false);
+
+    canvas.addEventListener('webglcontextlost', onContextLost, false);
+    canvas.addEventListener('webglcontextrestored', onContextRestored, false);
+    renderer.setClearColor('#020308', transparent ? 0 : 1);
+    rendererRef.current = { renderer, canvas, onContextLost, onContextRestored };
+  }, [transparent]);
+
+  useEffect(() => cleanupRenderer, [cleanupRenderer]);
 
   return (
     <div className={`relative h-full w-full ${className}`}>
@@ -56,9 +80,7 @@ function SpaceScene({
         fallback={<WebGLFallback />}
         eventSource={eventSource}
         eventPrefix="client"
-        onCreated={({ gl: renderer }) => {
-          renderer.setClearColor('#020308', transparent ? 0 : 1);
-        }}
+        onCreated={handleCreated}
         performance={{ min: 0.55 }}
       >
         <ResponsiveCamera
@@ -70,6 +92,14 @@ function SpaceScene({
         <SceneLighting />
         <Suspense fallback={null}>{children}</Suspense>
       </Canvas>
+      {contextLost && (
+        <div className="pointer-events-none absolute inset-0 z-10">
+          <WebGLFallback
+            message="The global 3D scene lost its graphics context. The mission interface remains available while it recovers."
+            title="NOVA-01 / global scene paused"
+          />
+        </div>
+      )}
     </div>
   );
 }
