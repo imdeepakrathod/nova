@@ -24,7 +24,7 @@ function CrewMember({ name, role, responsibility, image, fallbackImage }) {
   const ref = useTilt({ strength: 5 });
 
   return (
-    <article ref={ref} data-cursor className="tilt-card glass-panel group p-4 transition-transform duration-500 hover:-translate-y-2 focus-within:-translate-y-2 sm:p-6">
+    <article ref={ref} data-cursor className="tilt-card group border-y border-white/10 p-4 transition-transform duration-500 hover:-translate-y-2 focus-within:-translate-y-2 sm:p-6">
       <div className="relative mb-7 aspect-[4/5] overflow-hidden border border-white/10 bg-white/[0.025]">
         {image ? (
           <img

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 900" role="img" aria-labelledby="title">
+  <title>Jonas Reed fictional astronaut portrait</title>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#25202a"/><stop offset="1" stop-color="#05060a"/></linearGradient>
+    <radialGradient id="skin"><stop stop-color="#c48b68"/><stop offset="1" stop-color="#754737"/></radialGradient>
+  </defs>
+  <rect width="720" height="900" fill="url(#bg)"/>
+  <circle cx="360" cy="320" r="152" fill="url(#skin)"/>
+  <path d="M208 301c4-120 58-181 150-181 92 0 147 61 154 181-58-47-107-66-154-66-50 0-101 20-150 66Z" fill="#332623"/>
+  <path d="M207 900c10-190 61-285 153-285 89 0 140 95 153 285Z" fill="#303744"/>
+  <path d="M291 406c48 28 90 28 138 0" fill="none" stroke="#4c2929" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="306" cy="315" r="11" fill="#05060a"/><circle cx="414" cy="315" r="11" fill="#05060a"/>
+  <path d="M100 94h520M100 806h520" stroke="#ff4d00" stroke-opacity=".7" stroke-width="2"/>
+  <text x="54" y="70" fill="#ff4d00" font-family="Arial,sans-serif" font-size="18" letter-spacing="5">NOVA-01 / SYSTEMS</text>
+</svg>

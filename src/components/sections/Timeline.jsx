@@ -18,10 +18,10 @@ function Timeline() {
         align="center"
       />
 
-      <ol className="mt-16 grid gap-5 md:grid-cols-2 lg:grid-cols-5">
+      <ol className="mission-timeline relative mt-16 grid gap-10 md:grid-cols-2 md:gap-x-8 lg:grid-cols-5 lg:gap-0">
         {timelineItems.map(([step, title, text]) => (
-          <li key={step} className="timeline-stage relative border-l border-white/10 pl-6">
-            <span className="absolute -left-[0.32rem] top-0 h-2.5 w-2.5 rounded-full bg-nova-accent" />
+          <li key={step} className="timeline-stage relative border-l border-white/10 pl-6 lg:border-l-0 lg:pl-0 lg:pr-8">
+            <span className="absolute -left-[0.32rem] top-0 h-2.5 w-2.5 rounded-full bg-nova-accent shadow-[0_0_0_5px_#020308] lg:left-0 lg:top-[-0.3rem]" />
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-nova-accent">
               {step}
             </p>

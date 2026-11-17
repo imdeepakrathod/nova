@@ -50,7 +50,7 @@ function Spacecraft() {
             </div>
           </div>
 
-          <dl className="grid gap-3 sm:grid-cols-2">
+          <dl className="grid border-y border-white/10 sm:grid-cols-2 sm:divide-x sm:divide-white/10">
             {specs.map((spec) => <SpecificationCard key={spec.label} {...spec} />)}
           </dl>
 

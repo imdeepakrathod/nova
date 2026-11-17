@@ -53,13 +53,13 @@ function Countdown({ targetDate = launchDate }) {
           />
           {safeTime ? (
             <div
-              className="grid grid-cols-2 gap-px overflow-hidden border border-white/10 bg-white/10 md:grid-cols-4"
+              className="grid grid-cols-2 overflow-hidden border-y border-white/10 md:grid-cols-4 md:border-l"
               aria-describedby="countdown-status"
               aria-label="Time remaining until NOVA-01 launch"
               aria-live="off"
             >
               {countdownBlocks.map(([value, label]) => (
-                <div key={label} className="bg-nova-black/85 p-6 text-center sm:p-8">
+                <div key={label} className="border-b border-white/10 p-6 text-center last:border-b-0 sm:p-8 md:border-b-0 md:border-l">
                   <p className="font-display text-4xl font-semibold tabular-nums text-nova-white sm:text-5xl">
                     {String(value).padStart(2, '0')}
                   </p>

@@ -28,9 +28,9 @@ export const assets = {
       '/images/crew-lena-petrov.jpg',
     ],
     crewFallbacks: [
-      'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=900&q=85',
-      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=85',
-      'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=900&q=85',
+      '/images/crew-amina-okafor.svg',
+      '/images/crew-jonas-reed.svg',
+      '/images/crew-lena-petrov.svg',
     ],
   },
 };

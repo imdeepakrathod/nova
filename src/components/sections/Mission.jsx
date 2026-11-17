@@ -44,25 +44,25 @@ function Mission() {
         </dl>
       </div>
 
-      <div className="mt-14 grid gap-5 md:grid-cols-3">
+      <div className="mt-14 grid border-y border-white/10 md:grid-cols-3 md:divide-x md:divide-white/10">
         {missionCards.map(({ icon: Icon, title, text }) => (
-          <article key={title} className="glass-panel p-6 sm:p-8">
-            <Icon aria-hidden="true" className="mb-8 text-2xl text-nova-accent" />
-            <h3 className="font-display text-xl font-semibold uppercase tracking-[0.08em]">
+          <article key={title} className="border-b border-white/10 py-7 last:border-b-0 md:border-b-0 md:px-8 md:first:pl-0 md:last:pr-0">
+            <Icon aria-hidden="true" className="mb-8 text-xl text-nova-accent" />
+            <h3 className="max-w-[14rem] font-display text-xl font-semibold uppercase tracking-[0.08em]">
               {title}
             </h3>
-            <p className="mt-4 text-sm leading-7 text-nova-muted">{text}</p>
+            <p className="mt-4 max-w-sm text-sm leading-7 text-nova-muted">{text}</p>
           </article>
         ))}
       </div>
 
-      <div className="mt-16 grid grid-cols-3 gap-px border border-white/10 bg-white/10">
+      <div className="mt-16 grid grid-cols-3 border-y border-white/10">
         {[
           ['225M', 'KM'],
           ['07', 'MONTHS'],
           ['01', 'MISSION'],
-        ].map(([value, label]) => (
-          <div key={label} className="mission-reveal bg-nova-black/80 p-5 sm:p-8">
+        ].map(([value, label], index) => (
+          <div key={label} className={`mission-reveal py-5 sm:py-8 ${index > 0 ? 'border-l border-white/10 pl-5 sm:pl-8' : ''}`}>
             <p className="mission-value font-display text-2xl font-semibold text-nova-white sm:text-4xl">
               <AnimatedCounter
                 value={value === '225M' ? 225 : value === '07' ? 7 : 1}

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 900" role="img" aria-labelledby="title">
+  <title>Amina Okafor fictional astronaut portrait</title>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#172233"/><stop offset="1" stop-color="#05060a"/></linearGradient>
+    <radialGradient id="skin"><stop stop-color="#9d684e"/><stop offset="1" stop-color="#5a352c"/></radialGradient>
+  </defs>
+  <rect width="720" height="900" fill="url(#bg)"/>
+  <circle cx="360" cy="320" r="152" fill="url(#skin)"/>
+  <path d="M206 310c12-132 75-190 155-190 103 0 155 79 155 190-45-49-91-69-153-69-57 0-108 22-157 69Z" fill="#171317"/>
+  <path d="M213 900c8-190 60-285 147-285s139 95 147 285Z" fill="#253b55"/>
+  <path d="M290 410c44 32 96 32 140 0" fill="none" stroke="#351f22" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="305" cy="315" r="11" fill="#05060a"/><circle cx="415" cy="315" r="11" fill="#05060a"/>
+  <path d="M100 94h520M100 806h520" stroke="#ff4d00" stroke-opacity=".7" stroke-width="2"/>
+  <text x="54" y="70" fill="#ff4d00" font-family="Arial,sans-serif" font-size="18" letter-spacing="5">NOVA-01 / COMMAND</text>
+</svg>

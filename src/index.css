@@ -103,6 +103,16 @@ main > section::after {
   transform-origin: left;
 }
 
+.mission-timeline::before {
+  position: absolute;
+  top: -0.3rem;
+  right: 0;
+  left: 0;
+  height: 1px;
+  content: '';
+  background: linear-gradient(90deg, #ff4d00, rgba(255, 255, 255, 0.18), transparent);
+}
+
 .cursor-dot,
 .cursor-ring {
   position: fixed;

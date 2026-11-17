@@ -18,11 +18,12 @@ function Hero() {
       id="top"
       className="relative min-h-screen overflow-hidden pt-28"
     >
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(2,3,8,0.86)_0%,rgba(2,3,8,0.64)_38%,rgba(2,3,8,0.22)_72%,rgba(2,3,8,0.04)_100%)]" />
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(2,3,8,0.16)_0%,rgba(2,3,8,0)_42%,rgba(2,3,8,0.92)_100%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(2,3,8,0.94)_0%,rgba(2,3,8,0.74)_34%,rgba(2,3,8,0.28)_62%,rgba(2,3,8,0)_100%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(2,3,8,0.14)_0%,rgba(2,3,8,0)_48%,rgba(2,3,8,0.96)_100%)]" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[58%] bg-[radial-gradient(ellipse_at_center,rgba(255,77,0,0.11),transparent_58%)] lg:block" />
       <div className="absolute inset-x-0 bottom-0 h-px bg-white/10" />
       <div className="nova-container relative z-10 flex min-h-[calc(100vh-7rem)] items-center py-16">
-        <div className="max-w-4xl">
+        <div className="max-w-2xl lg:w-[52%]">
           <p className="hero-eyebrow mb-6 text-xs font-semibold uppercase tracking-[0.34em] text-nova-accent">
             NOVA-01 / MARS MISSION
           </p>
@@ -44,7 +45,7 @@ function Hero() {
             </Button>
           </div>
 
-          <div className="mt-14 grid max-w-2xl grid-cols-2 gap-px overflow-hidden border border-white/10 bg-white/10 sm:grid-cols-3">
+          <div className="mt-14 grid max-w-xl grid-cols-2 gap-px overflow-hidden border border-white/10 bg-white/10 sm:grid-cols-3">
             <HeroStat label="Launch" value="Q4 2028" />
             <HeroStat label="Transit" value="214 Days" />
             <HeroStat label="Target" value="Mars" />
