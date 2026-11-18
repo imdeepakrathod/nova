@@ -1,8 +1,10 @@
+import { lazy, Suspense } from 'react';
 import { FiBox, FiCrosshair, FiMaximize, FiZap } from 'react-icons/fi';
 import SectionHeading from '../ui/SectionHeading.jsx';
 import useTilt from '../../hooks/useTilt.js';
 import usePrefersReducedMotion from '../../hooks/usePrefersReducedMotion.js';
-import SpacecraftShowcase from '../3d/SpacecraftShowcase.jsx';
+
+const SpacecraftShowcase = lazy(() => import('../3d/SpacecraftShowcase.jsx'));
 
 const specs = [
   { label: 'Payload', value: 'Mars lander + science bay' },
@@ -39,7 +41,9 @@ function Spacecraft() {
 
         <div className="space-y-8">
           <div className="relative min-h-[20rem] overflow-hidden border border-white/10 bg-[radial-gradient(circle_at_60%_45%,rgba(255,77,0,0.18),transparent_24%),rgba(255,255,255,0.025)] sm:min-h-[25rem]">
-            <SpacecraftShowcase />
+            <Suspense fallback={<div className="absolute inset-0 bg-[#05060a]" aria-label="Loading spacecraft preview" />}>
+              <SpacecraftShowcase />
+            </Suspense>
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,transparent_40%,rgba(255,255,255,0.06)_40.2%,transparent_40.5%)]" />
             <div className="absolute inset-x-0 bottom-0 z-10 flex items-end justify-between border-t border-white/15 bg-nova-black/70 p-5 backdrop-blur-md sm:p-8">
               <div>

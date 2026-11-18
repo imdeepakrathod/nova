@@ -74,8 +74,8 @@ function SpaceScene({
     <div className={`relative h-full w-full ${className}`}>
       <Canvas
         camera={camera}
-        dpr={[1, 1.35]}
-        frameloop="always"
+        dpr={[1, 1.2]}
+        frameloop={reducedMotion ? 'demand' : 'always'}
         gl={gl}
         fallback={<WebGLFallback />}
         eventSource={eventSource}

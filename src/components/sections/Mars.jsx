@@ -1,6 +1,8 @@
+import { lazy, Suspense } from 'react';
 import SectionHeading from '../ui/SectionHeading.jsx';
-import MarsShowcase from '../3d/MarsShowcase.jsx';
 import usePrefersReducedMotion from '../../hooks/usePrefersReducedMotion.js';
+
+const MarsShowcase = lazy(() => import('../3d/MarsShowcase.jsx'));
 
 function Mars() {
   const reducedMotion = usePrefersReducedMotion();
@@ -9,7 +11,9 @@ function Mars() {
     <section id="mars" aria-labelledby="mars-title" className="border-y border-white/10">
       <div className="section-shell grid gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
         <div className={`mars-reveal relative min-h-[26rem] overflow-hidden border border-white/10 bg-[#070403]/60 ${reducedMotion ? '' : 'opacity-70'} sm:min-h-[36rem]`}>
-          <MarsShowcase />
+          <Suspense fallback={<div className="absolute inset-0 bg-[#070403]" aria-label="Loading Mars preview" />}>
+            <MarsShowcase />
+          </Suspense>
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_35%_30%,rgba(255,255,255,0.16),transparent_18%),radial-gradient(circle_at_62%_58%,rgba(2,3,8,0.38),transparent_28%)]" />
           <div className="absolute inset-x-0 bottom-0 border-t border-white/10 bg-nova-black/70 p-5 backdrop-blur-md">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-nova-muted">

@@ -1,9 +1,10 @@
 import { Stars } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
-import { memo, useMemo, useRef } from 'react';
+import { memo, useEffect, useMemo, useRef } from 'react';
 
 function StarField({ count = 4200, mobile = false, intensityRef, reducedMotion = false }) {
   const groupRef = useRef(null);
+  const materialsRef = useRef([]);
   const lastIntensityRef = useRef(null);
   const layers = useMemo(
     () => [
@@ -27,6 +28,24 @@ function StarField({ count = 4200, mobile = false, intensityRef, reducedMotion =
     [count, mobile],
   );
 
+  useEffect(() => {
+    if (!groupRef.current) return undefined;
+
+    const materials = [];
+    groupRef.current.traverse((child) => {
+      if (!child.material?.transparent) return;
+      const material = child.material;
+      material.userData.novaBaseOpacity ??= material.opacity;
+      materials.push(material);
+    });
+    materialsRef.current = materials;
+    lastIntensityRef.current = null;
+
+    return () => {
+      materialsRef.current = [];
+    };
+  }, [layers]);
+
   useFrame((_, delta) => {
     if (!groupRef.current) return;
     if (reducedMotion) return;
@@ -37,12 +56,8 @@ function StarField({ count = 4200, mobile = false, intensityRef, reducedMotion =
     const intensity = intensityRef?.current?.value;
     if (intensity !== undefined && intensity !== lastIntensityRef.current) {
       lastIntensityRef.current = intensity;
-      groupRef.current.traverse((child) => {
-        if (child.material?.transparent) {
-          child.material.userData.baseOpacity ??= child.material.opacity;
-          child.material.opacity =
-            child.material.userData.baseOpacity * intensity;
-        }
+      materialsRef.current.forEach((material) => {
+        material.opacity = material.userData.novaBaseOpacity * intensity;
       });
     }
   });
@@ -58,7 +73,7 @@ function StarField({ count = 4200, mobile = false, intensityRef, reducedMotion =
           fade
           radius={layer.radius}
           saturation={layer.saturation}
-          speed={layer.speed}
+          speed={reducedMotion ? 0 : layer.speed}
         />
       ))}
     </group>

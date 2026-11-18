@@ -62,14 +62,14 @@ function SceneEnvironment({ onReady, sceneRefs }) {
       <fog attach="fog" args={['#020308', isMobile ? 8 : 10, 34]} />
       <group ref={starsRef}>
         <StarField
-          count={lowComplexity ? 500 : isTablet ? 1700 : 3200}
+          count={lowComplexity ? 360 : isTablet ? 1200 : 2400}
           intensityRef={starIntensityRef}
           mobile={isMobile}
           reducedMotion={reducedMotion}
         />
       </group>
       <SpaceParticles
-        count={lowComplexity ? 50 : isTablet ? 110 : 180}
+        count={lowComplexity ? 32 : isTablet ? 80 : 140}
         opacity={isMobile ? 0.13 : 0.2}
         reducedMotion={reducedMotion}
         spread={isMobile ? 6 : 9}

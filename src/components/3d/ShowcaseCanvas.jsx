@@ -5,7 +5,7 @@ import usePrefersReducedMotion from '../../hooks/usePrefersReducedMotion.js';
 
 function ShowcaseLighting() {
   const { size } = useThree();
-  const isMobile = size.width < 640;
+  const isMobile = size.width < 768;
 
   return (
     <>
@@ -87,7 +87,7 @@ function ShowcaseCanvas({ children, camera = [0, 0, 6], className = '' }) {
       {shouldMount && (
         <Canvas
           camera={{ position: camera, fov: 38, near: 0.1, far: 100 }}
-          dpr={[1, 1.2]}
+          dpr={[1, 1.1]}
           fallback={<WebGLFallback />}
           frameloop={reducedMotion ? 'demand' : isVisible ? 'always' : 'never'}
           gl={gl}
