@@ -29,8 +29,10 @@ function SpaceScene({
   camera = DESKTOP_CAMERA,
   tabletCamera = TABLET_CAMERA,
   mobileCamera = MOBILE_CAMERA,
+  sceneReady = false,
 }) {
   const reducedMotion = usePrefersReducedMotion();
+  const [isDocumentVisible, setIsDocumentVisible] = useState(() => !document.hidden);
   const [contextLost, setContextLost] = useState(false);
   const rendererRef = useRef(null);
   const eventSource = useMemo(
@@ -69,13 +71,18 @@ function SpaceScene({
   }, [transparent]);
 
   useEffect(() => cleanupRenderer, [cleanupRenderer]);
+  useEffect(() => {
+    const updateVisibility = () => setIsDocumentVisible(!document.hidden);
+    document.addEventListener('visibilitychange', updateVisibility);
+    return () => document.removeEventListener('visibilitychange', updateVisibility);
+  }, []);
 
   return (
     <div className={`relative h-full w-full ${className}`}>
       <Canvas
         camera={camera}
         dpr={[1, 1.2]}
-        frameloop={reducedMotion ? 'demand' : 'always'}
+        frameloop={!isDocumentVisible ? 'never' : reducedMotion ? 'demand' : 'always'}
         gl={gl}
         fallback={<WebGLFallback />}
         eventSource={eventSource}
@@ -87,6 +94,7 @@ function SpaceScene({
           desktop={camera}
           mobile={mobileCamera}
           reducedMotion={reducedMotion}
+          journeyActive={sceneReady}
           tablet={tabletCamera}
         />
         <SceneLighting />

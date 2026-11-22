@@ -1,5 +1,5 @@
-import { lazy, Suspense } from 'react';
-import { FiBox, FiCrosshair, FiMaximize, FiZap } from 'react-icons/fi';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
+import { FiBox, FiCrosshair, FiMaximize, FiMinimize, FiZap } from 'react-icons/fi';
 import SectionHeading from '../ui/SectionHeading.jsx';
 import useTilt from '../../hooks/useTilt.js';
 import usePrefersReducedMotion from '../../hooks/usePrefersReducedMotion.js';
@@ -27,6 +27,42 @@ function SpecificationCard({ label, value }) {
 
 function Spacecraft() {
   const reducedMotion = usePrefersReducedMotion();
+  const showcaseRef = useRef(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const fullscreenSupported = typeof document !== 'undefined'
+    && Boolean(document.fullscreenEnabled)
+    && typeof document.fullscreenElement !== 'undefined';
+
+  useEffect(() => {
+    const updateFullscreen = () => setIsFullscreen(document.fullscreenElement === showcaseRef.current);
+    const exitWithEscape = (event) => {
+      if (event.key === 'Escape' && document.fullscreenElement === showcaseRef.current) {
+        const exitFullscreen = document.exitFullscreen;
+        if (typeof exitFullscreen === 'function') {
+          Promise.resolve(exitFullscreen.call(document)).catch(() => {});
+        }
+      }
+    };
+    document.addEventListener('fullscreenchange', updateFullscreen);
+    document.addEventListener('keydown', exitWithEscape);
+    return () => {
+      document.removeEventListener('fullscreenchange', updateFullscreen);
+      document.removeEventListener('keydown', exitWithEscape);
+    };
+  }, []);
+
+  const toggleFullscreen = async () => {
+    if (!fullscreenSupported) return;
+    try {
+      if (document.fullscreenElement === showcaseRef.current) {
+        await document.exitFullscreen();
+      } else {
+        await showcaseRef.current?.requestFullscreen();
+      }
+    } catch {
+      setIsFullscreen(false);
+    }
+  };
 
   return (
     <section id="spacecraft" className="border-y border-white/10 bg-white/[0.018]">
@@ -40,7 +76,7 @@ function Spacecraft() {
         </div>
 
         <div className="space-y-8">
-          <div className="relative min-h-[20rem] overflow-hidden border border-white/10 bg-[radial-gradient(circle_at_60%_45%,rgba(255,77,0,0.18),transparent_24%),rgba(255,255,255,0.025)] sm:min-h-[25rem]">
+          <div ref={showcaseRef} className="spacecraft-showcase relative min-h-[20rem] overflow-hidden border border-white/10 bg-[radial-gradient(circle_at_60%_45%,rgba(255,77,0,0.18),transparent_24%),rgba(255,255,255,0.025)] sm:min-h-[25rem]">
             <Suspense fallback={<div className="absolute inset-0 bg-[#05060a]" aria-label="Loading spacecraft preview" />}>
               <SpacecraftShowcase />
             </Suspense>
@@ -50,7 +86,19 @@ function Spacecraft() {
                 <p className="text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-nova-accent">NOVA-01 / 3D vehicle</p>
                 <p className="mt-2 text-sm text-nova-muted">Crewed Mars transfer configuration</p>
               </div>
-              <FiMaximize aria-hidden="true" className="text-xl text-nova-muted" />
+              <button
+                type="button"
+                className="inline-flex h-11 w-11 shrink-0 items-center justify-center border border-white/15 text-nova-muted transition hover:border-white/30 hover:text-nova-white focus:outline-none focus:ring-2 focus:ring-nova-accent disabled:cursor-not-allowed disabled:opacity-40"
+                onClick={toggleFullscreen}
+                disabled={!fullscreenSupported}
+                aria-label={isFullscreen ? 'Exit spacecraft showcase fullscreen' : 'Enter spacecraft showcase fullscreen'}
+                aria-pressed={isFullscreen}
+                title={fullscreenSupported ? undefined : 'Fullscreen is not supported by this browser'}
+              >
+                {isFullscreen
+                  ? <FiMinimize aria-hidden="true" className="text-xl" />
+                  : <FiMaximize aria-hidden="true" className="text-xl" />}
+              </button>
             </div>
           </div>
 

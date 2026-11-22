@@ -17,7 +17,7 @@ function SceneEnvironment({ onReady, sceneRefs }) {
   const spacecraftRef = useRef(null);
   const marsGlowRef = useRef({ opacity: 0.12 });
   const starIntensityRef = useRef({ value: 0.72 });
-  const { camera, size } = useThree();
+  const { camera, size, invalidate } = useThree();
   const cameraTargetRef = useRef(camera.userData.novaCameraTarget ?? new Vector3(0, 0, 0));
   const isMobile = size.width < 768;
   const isTablet = size.width >= 768 && size.width < 1024;
@@ -36,6 +36,7 @@ function SceneEnvironment({ onReady, sceneRefs }) {
       marsGlow: marsGlowRef.current,
       starIntensity: starIntensityRef.current,
       cameraTarget: cameraTargetRef.current,
+      invalidate,
     });
     onReady?.();
 

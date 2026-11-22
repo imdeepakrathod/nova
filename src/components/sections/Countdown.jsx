@@ -43,9 +43,10 @@ function Countdown({ targetDate = launchDate }) {
   ] : [];
 
   return (
-    <section id="countdown" className="border-t border-white/10 bg-white/[0.018]">
+    <section id="countdown" className="relative overflow-hidden border-t border-white/10 bg-nova-black/72">
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(2,3,8,0.88)_0%,rgba(2,3,8,0.72)_44%,rgba(2,3,8,0.12)_100%),radial-gradient(circle_at_78%_55%,rgba(255,77,0,0.12),transparent_28%)]" />
       <div className="section-shell">
-        <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
+        <div className="relative z-10 grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
           <SectionHeading
             eyebrow="Countdown"
             title="Launch window initialized."
@@ -53,17 +54,17 @@ function Countdown({ targetDate = launchDate }) {
           />
           {safeTime ? (
             <div
-              className="grid grid-cols-2 overflow-hidden border-y border-white/10 md:grid-cols-4 md:border-l"
+              className="grid grid-cols-2 overflow-hidden border-y border-white/15 bg-nova-black/45 backdrop-blur-[2px] md:grid-cols-4"
               aria-describedby="countdown-status"
               aria-label="Time remaining until NOVA-01 launch"
               aria-live="off"
             >
               {countdownBlocks.map(([value, label]) => (
-                <div key={label} className="border-b border-white/10 p-6 text-center last:border-b-0 sm:p-8 md:border-b-0 md:border-l">
-                  <p className="font-display text-4xl font-semibold tabular-nums text-nova-white sm:text-5xl">
+                <div key={label} className="border-b border-white/10 px-4 py-6 text-center last:border-b-0 sm:px-6 sm:py-8 md:border-b-0 md:border-l md:first:border-l-0">
+                  <p className="font-display text-3xl font-semibold tabular-nums text-nova-white sm:text-4xl lg:text-5xl">
                     {String(value).padStart(2, '0')}
                   </p>
-                  <p className="mt-3 text-[0.65rem] font-semibold uppercase tracking-[0.24em] text-nova-muted">
+                  <p className="mt-3 text-[0.58rem] font-semibold uppercase tracking-[0.22em] text-nova-muted sm:text-[0.65rem]">
                     {label}
                   </p>
                 </div>
@@ -81,11 +82,14 @@ function Countdown({ targetDate = launchDate }) {
           </p>
         </div>
 
-        <div className="mt-12 flex flex-col items-start justify-between gap-6 border-t border-white/10 pt-8 md:flex-row md:items-center">
-          <p className="max-w-2xl text-sm leading-7 text-nova-muted">
-            Mission control is preparing the vehicle, crew, and landing systems for a shared departure window.
-          </p>
-          <Button href="#top" variant="secondary">
+        <div className="relative z-10 mt-10 flex flex-col items-start justify-between gap-5 border-t border-white/10 pt-7 md:flex-row md:items-center">
+          <div className="flex items-center gap-3">
+            <span className="h-2 w-2 shrink-0 rounded-full bg-nova-accent shadow-[0_0_16px_rgba(255,77,0,0.8)]" aria-hidden="true" />
+            <p className="max-w-2xl text-sm leading-7 text-nova-muted">
+              Vehicle, crew, and landing systems are tracking a shared departure window.
+            </p>
+          </div>
+          <Button href="#top" variant="secondary" showIcon={false}>
             Return to Top
           </Button>
         </div>

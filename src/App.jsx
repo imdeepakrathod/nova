@@ -65,7 +65,7 @@ function App() {
       {isLoading && <LoadingScreen onComplete={completeLoading} ready={sceneReady} />}
       <CustomCursor />
       <div className="pointer-events-none fixed inset-0 z-0 opacity-90">
-        <SpaceScene>
+        <SpaceScene sceneReady={sceneReady}>
           <SceneEnvironment onReady={handleSceneReady} sceneRefs={sceneRefs} />
           <SceneAnimationController ready={sceneReady} sceneRefs={sceneRefs} reducedMotion={reducedMotion} />
         </SpaceScene>

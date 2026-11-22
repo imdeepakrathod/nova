@@ -9,8 +9,8 @@ const missionLinks = [
 
 function Footer() {
   return (
-    <footer id="footer" className="border-t border-white/10 bg-[#010207]">
-      <div className="nova-container grid gap-12 py-12 md:grid-cols-[1.2fr_0.8fr] md:py-16">
+    <footer id="footer" className="relative z-20 border-t border-white/10 bg-[#020308]">
+      <div className="nova-container grid gap-10 py-10 md:grid-cols-[1.2fr_0.8fr] md:py-12">
         <div>
           <div className="mb-3 flex items-center gap-3">
             <span className="h-2.5 w-2.5 rounded-full bg-nova-accent" />

@@ -12,6 +12,13 @@ export default function useActiveSection(sectionIds) {
     let frameId;
     const updateActiveSection = () => {
       frameId = undefined;
+      if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2) {
+        if (activeSectionRef.current !== 'footer') {
+          activeSectionRef.current = 'footer';
+          setActiveSection('footer');
+        }
+        return;
+      }
       const marker = window.innerHeight * 0.38;
       const current = sections.find((section) => {
         const bounds = section.getBoundingClientRect();

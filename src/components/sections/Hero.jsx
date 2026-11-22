@@ -16,18 +16,18 @@ function Hero() {
   return (
     <section
       id="top"
-      className="relative min-h-screen overflow-hidden pt-28"
+      className="relative min-h-[44rem] overflow-hidden pt-24 sm:min-h-screen sm:pt-28"
     >
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(2,3,8,0.94)_0%,rgba(2,3,8,0.74)_34%,rgba(2,3,8,0.28)_62%,rgba(2,3,8,0)_100%)]" />
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(2,3,8,0.14)_0%,rgba(2,3,8,0)_48%,rgba(2,3,8,0.96)_100%)]" />
       <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[58%] bg-[radial-gradient(ellipse_at_center,rgba(255,77,0,0.11),transparent_58%)] lg:block" />
       <div className="absolute inset-x-0 bottom-0 h-px bg-white/10" />
-      <div className="nova-container relative z-10 flex min-h-[calc(100vh-7rem)] items-center py-16">
-        <div className="max-w-2xl lg:w-[52%]">
+      <div className="nova-container relative z-10 flex min-h-[calc(44rem-6rem)] items-center py-12 sm:min-h-[calc(100vh-7rem)] sm:py-16">
+        <div className="max-w-[36rem] lg:w-[50%]">
           <p className="hero-eyebrow mb-6 text-xs font-semibold uppercase tracking-[0.34em] text-nova-accent">
             NOVA-01 / MARS MISSION
           </p>
-          <h1 data-reveal-heading data-reveal-hero className="font-display text-6xl font-semibold uppercase leading-[0.9] text-nova-white sm:text-7xl md:text-8xl lg:text-[7.4rem]">
+          <h1 data-reveal-heading data-reveal-hero className="font-display text-[3.35rem] font-semibold uppercase leading-[0.88] text-nova-white sm:text-7xl md:text-8xl lg:text-[7.1rem]">
             <span className="reveal-word inline-block">Beyond</span>{' '}
             <span className="reveal-word inline-block">Earth.</span>
           </h1>

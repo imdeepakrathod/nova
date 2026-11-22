@@ -15,6 +15,7 @@ export function createJourneyAnimation({ scene, isMobile, isTablet = false, redu
     const cameraX = mobile ? 0.72 : tablet ? 0.88 : 1;
     const spacecraftX = mobile ? 0.72 : tablet ? 0.9 : 1;
     const marsScale = mobile ? 1.8 : tablet ? 2.05 : 2.25;
+    const initialProgress = typeof scene.journeyProgress === 'number' ? scene.journeyProgress : 0;
     const timeline = gsap.timeline({
       defaults: { ease: 'power1.inOut' },
       scrollTrigger: {
@@ -26,6 +27,10 @@ export function createJourneyAnimation({ scene, isMobile, isTablet = false, redu
         invalidateOnRefresh: true,
       },
     });
+    timeline.scrollTrigger.onUpdate = (self) => {
+      scene.journeyProgress = self.progress;
+      scene.invalidate?.();
+    };
 
     timeline
       // EARTH -> SPACECRAFT LAUNCH
@@ -84,6 +89,7 @@ export function createJourneyAnimation({ scene, isMobile, isTablet = false, redu
       .to(scene.cameraTarget, { x: (mobile ? 0.45 : 0.72) * horizontalScale, y: mobile ? 0.08 : 0.2, z: mobile ? -1.35 : -1.55, duration: 1.35 }, 'mars')
       .to(scene.marsGlow, { opacity: mobile ? 0.52 : 0.72, duration: 1.35 }, 'mars')
       .to('.mars-reveal', { opacity: 1, y: 0, duration: 0.6, ease: 'power1.out' }, 'mars+=0.7');
+    timeline.progress(initialProgress, false);
   });
 
   return () => context.revert();

@@ -35,16 +35,33 @@ function SpacecraftFallback() {
         <cylinderGeometry args={[0.08, 0.08, 0.12, 24]} />
         <meshBasicMaterial color="#FFB38A" toneMapped={false} />
       </mesh>
+      {[-0.105, 0, 0.105].map((x) => (
+        <mesh key={x} position={[x, -1.14, 0]} rotation={[Math.PI, 0, 0]}>
+          <coneGeometry args={[0.07, 0.28, 20, 1, true]} />
+          <meshStandardMaterial
+            color="#252D39"
+            emissive="#FF6A32"
+            emissiveIntensity={0.24}
+            metalness={0.58}
+            roughness={0.32}
+          />
+        </mesh>
+      ))}
 
-      <mesh position={[0.42, -0.2, 0]} rotation={[0, 0, 0.18]}>
-        <boxGeometry args={[0.08, 0.82, 0.58]} />
-        {panelMaterial()}
-      </mesh>
-
-      <mesh position={[-0.42, -0.2, 0]} rotation={[0, 0, -0.18]}>
-        <boxGeometry args={[0.08, 0.82, 0.58]} />
-        {panelMaterial()}
-      </mesh>
+      {[-1, 1].map((side) => (
+        <group key={side} position={[side * 0.44, -0.12, 0]} rotation={[0, 0, side * 0.12]}>
+          <mesh>
+            <boxGeometry args={[0.06, 1.22, 0.68]} />
+            {panelMaterial()}
+          </mesh>
+          {[-0.38, 0, 0.38].map((y) => (
+            <mesh key={y} position={[side * 0.035, y, 0]}>
+              <boxGeometry args={[0.012, 0.012, 0.64]} />
+              <meshBasicMaterial color="#7EA7C9" toneMapped={false} />
+            </mesh>
+          ))}
+        </group>
+      ))}
 
       <mesh position={[0, 0.26, 0.2]}>
         <sphereGeometry args={[0.12, 24, 24]} />

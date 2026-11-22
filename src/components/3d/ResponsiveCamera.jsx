@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useThree } from '@react-three/fiber';
 import { Vector3 } from 'three';
-import { gsap } from '../../animations/gsapConfig.js';
 
 export const CAMERA_BREAKPOINTS = Object.freeze({
   mobile: 768,
@@ -14,8 +13,8 @@ export function getCameraBreakpoint(width) {
   return 'desktop';
 }
 
-function ResponsiveCamera({ desktop, tablet, mobile, targetRef, reducedMotion = false }) {
-  const { camera, size } = useThree();
+function ResponsiveCamera({ desktop, tablet, mobile, targetRef, reducedMotion = false, journeyActive = false }) {
+  const { camera, size, invalidate } = useThree();
   const breakpoint = getCameraBreakpoint(size.width);
   const internalTargetRef = useRef(camera.userData.novaCameraTarget ?? new Vector3());
   const resolvedTargetRef = targetRef ?? internalTargetRef;
@@ -32,36 +31,14 @@ function ResponsiveCamera({ desktop, tablet, mobile, targetRef, reducedMotion = 
     camera.fov = config.fov;
     camera.updateProjectionMatrix();
 
-    if (isInitialUpdate || reducedMotion) {
+    if (isInitialUpdate || !journeyActive) {
       camera.position.set(...config.position);
       resolvedTargetRef.current.set(...target);
-    } else {
-      gsap.to(camera.position, {
-        ...['x', 'y', 'z'].reduce((values, axis, index) => {
-          values[axis] = config.position[index];
-          return values;
-        }, {}),
-        duration: 0.45,
-        ease: 'power2.out',
-        overwrite: 'auto',
-      });
-      gsap.to(resolvedTargetRef.current, {
-        x: target[0],
-        y: target[1],
-        z: target[2],
-        duration: 0.45,
-        ease: 'power2.out',
-        overwrite: 'auto',
-      });
     }
 
     previousBreakpointRef.current = breakpoint;
-  }, [breakpoint, camera, desktop, mobile, reducedMotion, tablet, resolvedTargetRef]);
-
-  useEffect(() => () => {
-    gsap.killTweensOf(camera.position);
-    gsap.killTweensOf(resolvedTargetRef.current);
-  }, [camera, resolvedTargetRef]);
+    invalidate();
+  }, [breakpoint, camera, desktop, invalidate, journeyActive, mobile, reducedMotion, tablet, resolvedTargetRef]);
 
   return null;
 }

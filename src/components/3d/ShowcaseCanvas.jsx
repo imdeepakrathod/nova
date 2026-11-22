@@ -23,6 +23,7 @@ function ShowcaseCanvas({ children, camera = [0, 0, 6], className = '' }) {
   const [contextLost, setContextLost] = useState(false);
   const rendererRef = useRef(null);
   const reducedMotion = usePrefersReducedMotion();
+  const [isDocumentVisible, setIsDocumentVisible] = useState(() => !document.hidden);
   const gl = useMemo(() => ({ alpha: true, antialias: true, powerPreference: 'high-performance' }), []);
 
   useEffect(() => {
@@ -49,6 +50,11 @@ function ShowcaseCanvas({ children, camera = [0, 0, 6], className = '' }) {
       mountObserver.disconnect();
       visibilityObserver.disconnect();
     };
+  }, []);
+  useEffect(() => {
+    const updateVisibility = () => setIsDocumentVisible(!document.hidden);
+    document.addEventListener('visibilitychange', updateVisibility);
+    return () => document.removeEventListener('visibilitychange', updateVisibility);
   }, []);
 
   const cleanupRenderer = useCallback(() => {
@@ -89,7 +95,7 @@ function ShowcaseCanvas({ children, camera = [0, 0, 6], className = '' }) {
           camera={{ position: camera, fov: 38, near: 0.1, far: 100 }}
           dpr={[1, 1.1]}
           fallback={<WebGLFallback />}
-          frameloop={reducedMotion ? 'demand' : isVisible ? 'always' : 'never'}
+          frameloop={!isDocumentVisible ? 'never' : reducedMotion ? 'demand' : isVisible ? 'always' : 'never'}
           gl={gl}
           onCreated={handleCreated}
         >

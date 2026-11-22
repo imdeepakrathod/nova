@@ -61,6 +61,7 @@ button:focus-visible {
 main > section {
   position: relative;
   isolation: isolate;
+  scroll-margin-top: 5rem;
 }
 
 main > section::after {
@@ -111,6 +112,13 @@ main > section::after {
   height: 1px;
   content: '';
   background: linear-gradient(90deg, #ff4d00, rgba(255, 255, 255, 0.18), transparent);
+}
+
+.spacecraft-showcase:fullscreen {
+  width: 100vw;
+  min-height: 100vh;
+  border: 0;
+  background: #020308;
 }
 
 .cursor-dot,
